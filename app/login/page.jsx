@@ -1,4 +1,5 @@
 import styles from "@/app/ui/login/login.module.css";
+import Link from 'next/link'
 
 const LoginPage = () => {
   return (
@@ -7,7 +8,10 @@ const LoginPage = () => {
             <h1>Login</h1>
             <input type="text" placeholder="username" />
             <input type="password" placeholder="password" />
-            <button>Login</button>
+            <Link href="/dashboard">
+              <button>Login</button>
+            </Link>
+            
         </form>
     </div>
   );

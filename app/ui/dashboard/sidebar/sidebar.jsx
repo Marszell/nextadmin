@@ -1,14 +1,12 @@
 import Image from "next/image";
 import MenuLink from "./menuLink/menuLink";
 import styles from "./sidebar.module.css"
+import Link from "next/link";
 import{
     MdDashboard,
     MdSupervisedUserCircle,
     MdShoppingBag,
     MdAttachMoney,
-    MdWork,
-    MdAnalytics,
-    MdPeople,
     MdOutlineSettings,
     MdHelpCenter,
     MdLogout,
@@ -76,9 +74,11 @@ const Sidebar = () => {
                     </li>
                 ))}
             </ul>
-            <button className={styles.logout}>
-                <MdLogout />
-            Logout</button>
+            <Link href="/login">
+                <button className={styles.logout}>
+                    <MdLogout />
+                Logout</button>
+            </Link>
         </div>
     );
 };
