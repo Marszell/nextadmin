@@ -18,10 +18,6 @@ const SingleProductPage = () => {
                     <input type="number" name="price" placeholder='Rp 19.999'/>
                     <label>Stock</label>
                     <input type="number" name="stock" placeholder='23' />
-                    <label>Color</label>
-                    <input type="text" name="color" placeholder='red'/>
-                    <label>Size</label>
-                    <textarea type="text" name="size" placeholder='New York'/>
                     <label>Cat</label>
                     <select name="cat" id="cat">
                         <option value="kitchen">Kitchen</option>
