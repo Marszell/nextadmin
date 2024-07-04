@@ -11,6 +11,7 @@
   "dependencies": {
     "@next/eslint-plugin-next": "14.0.1",
     "bootstrap": "^5.3.3",
+    "@prisma/client": "^5.16.1",
     "next": "14.0.1",
     "react": "18",
     "react-dom": "18",
@@ -21,6 +22,7 @@
     "@types/node": "20.14.9",
     "@types/react": "18.3.3",
     "eslint": "8",
-    "eslint-config-next": "14.0.1"
+    "eslint-config-next": "14.0.1",
+    "prisma": "^5.16.1"
   }
 }
