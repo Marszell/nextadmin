@@ -3,8 +3,11 @@ import Link from "next/link"
 import styles from "@/app/ui/dashboard/products/products.module.css"
 import Search from "@/app/ui/dashboard/search/search"
 import Pagination from "@/app/ui/dashboard/pagination/pagination"
+import { fetchGames } from "@/app/lib/data";
 
-const ProductsPage = () => {
+const ProductsPage = async () => {
+    const games = await fetchGames();
+
     return(
         <div className={styles.container}>
             <div className={styles.top}>
@@ -16,31 +19,26 @@ const ProductsPage = () => {
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <td>Title</td>
-                        <td>Description</td>
-                        <td>Price</td>
-                        <td>Created At</td>
-                        <td>Stock</td>
+                        <td>Logo</td>
+                        <td>Name</td>
                         <td>Action</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><div className={styles.product}>
-                            <Image 
-                                src="/noproduct.jpg" 
-                                alt="" 
-                                width={40} 
-                                height={40} 
-                                className={styles.productImage}
-                            />
-                            IPhone
-                        </div>
+                {games.map((game) => {
+                    return <tr key = {game.id}>
+                        <td>
+                            <div className={styles.product}>
+                                <Image
+                                    src="/noproduct.jpg"
+                                    alt=""
+                                    width={40}
+                                    height={40}
+                                    className={styles.productImage}
+                                />
+                            </div>
                         </td>
-                        <td>Desc</td>
-                        <td>$999</td>
-                        <td>13.01.2022</td>
-                        <td>72</td>
+                        <td>{game.name}</td>
                         <td>
                             <div className={styles.buttons}>
                                 <Link href="/dashboard/products/test">
@@ -54,6 +52,7 @@ const ProductsPage = () => {
                             </div>
                         </td>
                     </tr>
+                })}
                 </tbody>
             </table>
             <Pagination/>
