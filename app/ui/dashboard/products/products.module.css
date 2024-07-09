@@ -34,10 +34,10 @@
     gap: 10px;
 }
   
-.productImage{
-    border-radius: 50%;
-    object-fit: cover;
-}
+/*.productImage{*/
+/*    border-radius: 50%;*/
+/*    object-fit: cover;*/
+/*}*/
   
 .buttons{
     display: flex;

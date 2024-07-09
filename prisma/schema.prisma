@@ -13,11 +13,70 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model games {
-    id BigInt @default(autoincrement()) @id
-    name String @unique
-    image_url String
-    created_at DateTime @default(now()) @db.Timestamptz(3)
-    updated_at DateTime? @updatedAt @db.Timestamptz(3)
-    deleted_at DateTime? @db.Timestamptz(3)
+model Game {
+  id          BigInt    @default(autoincrement()) @id
+  name        String    @unique
+  description String?
+  image_url   String
+  products    products
+  created_at  DateTime  @default(now()) @db.Timestamptz(3)
+  updated_at  DateTime? @updatedAt @db.Timestamptz(3)
+  deleted_at  DateTime? @db.Timestamptz(3)
+
+  @@map("games")
+}
+
+model Payment {
+  id         BigInt    @default(autoincrement()) @id
+  name       String    @unique
+  image_url  String
+  created_at DateTime  @default(now()) @db.Timestamptz(3)
+  updated_at DateTime? @updatedAt @db.Timestamptz(3)
+  deleted_at DateTime? @db.Timestamptz(3)
+
+  @@map("payments")
+}
+
+model Product {
+  id         BigInt    @default(autoincrement()) @id
+  game_id    BigInt
+  game       games     @relation(fields: [game_id], references: [id])
+  name       String    @unique
+  image_url  String
+  price      Int
+  quantity   Int
+  created_at DateTime  @default(now()) @db.Timestamptz(3)
+  updated_at DateTime? @updatedAt @db.Timestamptz(3)
+  deleted_at DateTime? @db.Timestamptz(3)
+
+  @@map("products")
+}
+
+model User {
+  id         BigInt    @default(autoincrement()) @id
+  email      String    @unique
+  password   String
+  name       String
+  created_at DateTime  @default(now()) @db.Timestamptz(3)
+  updated_at DateTime? @updatedAt @db.Timestamptz(3)
+  deleted_at DateTime? @db.Timestamptz(3)
+
+  @@map("users")
+}
+
+model Order {
+  id             BigInt    @default(autoincrement()) @id
+  payment_id     BigInt
+  payment        payments  @relation(fields: [payment_id], references: [id])
+  product_id     BigInt
+  product        Product   @relation(fields: [product_id], references: [id])
+  price          Int
+  status_order   String
+  payment_status String
+  server         String
+  created_at     DateTime  @default(now()) @db.Timestamptz(3)
+  updated_at     DateTime? @updatedAt @db.Timestamptz(3)
+  deleted_at     DateTime? @db.Timestamptz(3)
+
+  @@map("orders")
 }
