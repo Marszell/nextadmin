@@ -24,16 +24,18 @@
 }
   
 .formContainer {
+    display: flex;
+    flex-direction: column;
     flex: 3;
     background-color: var(--bgSoft);
     padding: 20px;
     border-radius: 10px;
 }
   
-.form{
-    display: flex;
-    flex-direction: column;
-}
+/*.form{*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
   
 .form input, .form textarea, .form select{
     padding: 20px;
