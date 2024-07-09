@@ -18,7 +18,7 @@ model Game {
   name        String    @unique
   description String?
   image_url   String
-  products    products
+  products    Product[]
   created_at  DateTime  @default(now()) @db.Timestamptz(3)
   updated_at  DateTime? @updatedAt @db.Timestamptz(3)
   deleted_at  DateTime? @db.Timestamptz(3)
@@ -30,6 +30,7 @@ model Payment {
   id         BigInt    @default(autoincrement()) @id
   name       String    @unique
   image_url  String
+  orders     Order[]
   created_at DateTime  @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt @db.Timestamptz(3)
   deleted_at DateTime? @db.Timestamptz(3)
@@ -40,11 +41,12 @@ model Payment {
 model Product {
   id         BigInt    @default(autoincrement()) @id
   game_id    BigInt
-  game       games     @relation(fields: [game_id], references: [id])
+  game       Game      @relation(fields: [game_id], references: [id])
   name       String    @unique
   image_url  String
   price      Int
   quantity   Int
+  orders     Order[]
   created_at DateTime  @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt @db.Timestamptz(3)
   deleted_at DateTime? @db.Timestamptz(3)
@@ -67,7 +69,7 @@ model User {
 model Order {
   id             BigInt    @default(autoincrement()) @id
   payment_id     BigInt
-  payment        payments  @relation(fields: [payment_id], references: [id])
+  payment        Payment   @relation(fields: [payment_id], references: [id])
   product_id     BigInt
   product        Product   @relation(fields: [product_id], references: [id])
   price          Int

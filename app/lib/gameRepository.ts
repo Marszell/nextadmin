@@ -1,7 +1,7 @@
 import prisma from './prisma';
 
 export async function fetchGames() : Promise<any[]> {
-    return prisma.games.findMany({
+    return prisma.game.findMany({
         where: {
             deleted_at: null
         }
@@ -9,7 +9,7 @@ export async function fetchGames() : Promise<any[]> {
 }
 
 export async function fetchGame(id: number) : Promise<any> {
-    return prisma.games.findFirst({
+    return prisma.game.findFirst({
         where: {
             id: id,
             deleted_at: null
@@ -18,7 +18,7 @@ export async function fetchGame(id: number) : Promise<any> {
 }
 
 export async function fetchGameByName(name: string) : Promise<any> {
-    return prisma.games.findFirst({
+    return prisma.game.findFirst({
         where: {
             name: name,
         }
@@ -26,11 +26,11 @@ export async function fetchGameByName(name: string) : Promise<any> {
 }
 
 // export async function fetchGameByNameV2(name: string) : Promise<any> {
-//     return prisma.$queryRaw`SELECT * FROM games WHERE name LIKE "%${name}%"`;
+//     return prisma.$queryRaw`SELECT * FROM game WHERE name LIKE "%${name}%"`;
 // }
 
 export async function fetchGamesV2(name: string) : Promise<any[]> {
-    return prisma.games.findMany({
+    return prisma.game.findMany({
         where: {
             deleted_at: null,
             name: {
@@ -41,7 +41,7 @@ export async function fetchGamesV2(name: string) : Promise<any[]> {
 }
 
 export async function isExistsByName(name: string) : Promise<boolean> {
-    return prisma.games.count({
+    return prisma.game.count({
         where: {
             name: name
         }
@@ -50,13 +50,13 @@ export async function isExistsByName(name: string) : Promise<boolean> {
 }
 
 export async function create(data: any) : Promise<any> {
-    await prisma.games.create({
+    await prisma.game.create({
         data: data
     });
 }
 
 export async function update(id: number, data: any) : Promise<any> {
-    return prisma.games.update({
+    return prisma.game.update({
         where: {
             id: id
         },
@@ -65,7 +65,7 @@ export async function update(id: number, data: any) : Promise<any> {
 }
 
 export async function deleteGame(id: number) : Promise<any> {
-    // await prisma.games.update({
+    // await prisma.game.update({
     //     where: {
     //         id: id
     //     },
@@ -73,7 +73,7 @@ export async function deleteGame(id: number) : Promise<any> {
     //         deleted_at: new Date()
     //     }
     // });
-    await prisma.games.delete({
+    await prisma.game.delete({
         where: {
             id: id
         }
