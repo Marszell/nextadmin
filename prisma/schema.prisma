@@ -46,6 +46,7 @@ model Product {
   image_url  String
   price      Int
   quantity   Int
+  description String?
   orders     Order[]
   created_at DateTime  @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt @db.Timestamptz(3)
@@ -59,6 +60,7 @@ model User {
   email      String    @unique
   password   String
   name       String
+  image_url  String
   created_at DateTime  @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt @db.Timestamptz(3)
   deleted_at DateTime? @db.Timestamptz(3)

@@ -11,16 +11,25 @@
     display: block;
 } */
 
+/* ini yang digunakan sekarang */
+.wrapper{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 20px;
+
+}
 .container {
     width: auto;
     height: 100%;
-    display: flex;
-    justify-content: center; /* Center the carousel items */
-    align-items: center; /* Center the carousel items vertically */
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
 }
 
 .img {
-    width: auto;
-    height: 100%;
     object-fit: fill;
+    display:inline-block;
+    width: 100%;
+    height: 100%; 
 }

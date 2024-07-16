@@ -27,9 +27,19 @@ const menuItems =[
                 icon: <MdSupervisedUserCircle />,
             },
             {
+                title:"Games",
+                path:"/dashboard/games",
+                icon: <MdShoppingBag />,
+            },
+            {
                 title:"Products",
                 path:"/dashboard/products",
                 icon: <MdShoppingBag />,
+            },
+            {
+                title:"Payments",
+                path:"/dashboard/payments",
+                icon:<MdAttachMoney />,
             },
             {
                 title:"Transactions",

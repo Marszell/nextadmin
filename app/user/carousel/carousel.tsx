@@ -47,31 +47,33 @@ export default function Carousel () {
 //   }, []);
 
   return (
-    <div id="carouselExampleIndicators" className={`carousel slide ${styles.container}`} data-bs-ride="carousel">
-      <ol className="carousel-indicators">
-        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active"></li>
-        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
-        <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
-      </ol>
-      <div className="carousel-inner">
-        <div className="carousel-item active">
-          <img className={styles.img} src="/genshin.jpg" alt="First slide" />
+    <div className={styles.wrapper}>
+      <div id="carouselExampleIndicators" className={`carousel slide ${styles.container}`} data-bs-ride="carousel">
+        <ol className="carousel-indicators">
+          <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active"></li>
+          <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+          <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+        </ol>
+        <div className="carousel-inner">
+          <div className="carousel-item active">
+            <img className={styles.img} src="/genshin.jpg" alt="First slide" />
+          </div>
+          <div className="carousel-item">
+            <img className={styles.img} src="icongenshin.jpg" alt="Second slide" />
+          </div>
+          <div className="carousel-item">
+            <img className={styles.img} src="/noproduct.jpg" alt="Third slide" />
+          </div>
         </div>
-        <div className="carousel-item">
-          <img className={styles.img} src="icongenshin.jpg" alt="Second slide" />
-        </div>
-        <div className="carousel-item">
-          <img className={styles.img} src="/noproduct.jpg" alt="Third slide" />
-        </div>
+        <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </a>
+        <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Next</span>
+        </a>
       </div>
-      <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-      </a>
-      <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Next</span>
-      </a>
     </div>
   );
 };

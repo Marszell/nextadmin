@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.container.selected {
+    background-color: gray;
+}
+  
+.leftside {
+    display: flex;
+    align-items: center;
+}
+  
+.imagepayment img {
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+}
+  
+.paymentname span {
+    font-size: 16px;
+    font-weight: 500;
+    color: #272525;
+}
+  
+.rightside .price span {
+    font-size: 16px;
+    font-weight: 700;
+    color: #272525;
+  }
+  

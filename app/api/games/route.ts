@@ -10,12 +10,7 @@ export async function GET(request: Request): Promise<any> {
         const url = new URL(request.url);
         const searchParams = new URLSearchParams(url.searchParams);
         const gameParam = searchParams.get("name");
-        let games
-        if (!gameParam) {
-            games = await fetchGames();
-        } else {
-            games = await fetchGamesV2(gameParam);
-        }
+        const games = await fetchGamesV2(gameParam ?? "")
         return NextResponse.json({ message: "", data: games, error: {} }, { status: 200 })
     } catch(err) {
         console.log(err)
