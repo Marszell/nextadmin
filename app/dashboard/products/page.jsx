@@ -9,35 +9,36 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 
 const ProductsPage = () => {
-    const [games, setGames] = useState([])
+    const [products, setProducts] = useState([])
 
     useEffect( () => {
-        fetchGames()
+        fetchProducts()
     }, [])
 
-    const fetchGames = async () => {
-        const gameRes = await axios.get("/api/games")
-        setGames(gameRes.data.data)
+    const fetchProducts = async () => {
+        const productRes = await axios.get("/api/products")
+        setProducts(productRes.data.data)
+        console.log(productRes)
     }
 
     const onDelete = async (id) => {
-        await axios.delete(`/api/games/${id}`)
-        await fetchGames()
+        await axios.delete(`/api/products/${id}`)
+        await fetchProducts()
     }
 
     const onChange = async (event) => {
-        const filteredGames = await axios.get(`/api/games`, {
+        const filteredProducts = await axios.get(`/api/products`, {
             params: {
                 name: event.target.value,
             }
         });
-        setGames(filteredGames.data.data)
+        setProducts(filteredProducts.data.data)
     }
 
     return(
         <div className={styles.container}>
             <div className={styles.top}>
-                <Search placeholder="Search for a games..." onChange={onChange} />
+                <Search placeholder="Search for a products..." onChange={onChange} />
                 <Link href="/dashboard/products/add">
                     <button className={styles.addButton}>Add New</button>
                 </Link>
@@ -46,18 +47,21 @@ const ProductsPage = () => {
                 <thead>
                     <tr>
                         <td>Logo</td>
-                        <td>Name</td>
+                        <td>Name Product</td>
+                        <td>Name Game</td>
                         <td>Description</td>
+                        <td>Price</td>
+                        <td>Quantity</td>
                         <td>Action</td>
                     </tr>
                 </thead>
                 <tbody>
-                {games !== undefined && games.map((game) => (
-                    <tr key = {game.id}>
+                {products !== undefined && products.map((product) => (
+                    <tr key = {product.id}>
                         <td>
                             <div className={styles.product}>
                                 <Image
-                                    src={game.image_url}
+                                    src={product.image_url}
                                     alt=""
                                     width={40}
                                     height={40}
@@ -65,16 +69,19 @@ const ProductsPage = () => {
                                 />
                             </div>
                         </td>
-                        <td>{game.name}</td>
-                        <td>{game.description}</td>
+                        <td>{product.name}</td>
+                        <td>{product.game.name}</td>
+                        <td>{product.description}</td>
+                        <td>{product.price}</td>
+                        <td>{product.quantity}</td>
                         <td>
                             <div className={styles.buttons}>
-                                <Link href={`/dashboard/products/${game.id}`}>
+                                <Link href={`/dashboard/products/${product.id}`}>
                                     <button className={`${styles.button} ${styles.view}`}>
                                         View
                                     </button>
                                 </Link>
-                                <button className={`${styles.button} ${styles.delete}`} onClick={() => onDelete(game.id)}>
+                                <button className={`${styles.button} ${styles.delete}`} onClick={() => onDelete(product.id)}>
                                     Delete
                                 </button>
                             </div>

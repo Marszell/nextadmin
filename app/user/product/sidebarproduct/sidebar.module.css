@@ -1,0 +1,60 @@
+/* sidebar.module.css */
+.wrapper {
+    width: 400px;
+    background-color: #1c2a48;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    color: white;
+}
+
+.image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.title {
+    padding: 20px;
+    text-align: left;
+    background-color: #182237;
+    color: #ffffff;
+}
+
+.title h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 20px;
+    background-color: #182237;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    background-color: #151c2c;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    gap: 20px;
+}
+
+.button img {
+    margin-right: 8px;
+}
+
+.description {
+    padding: 20px;
+    background-color: #182237;
+}
+
+.description p {
+    margin: 0 0 10px;
+}

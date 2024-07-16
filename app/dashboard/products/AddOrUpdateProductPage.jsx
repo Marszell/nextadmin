@@ -13,9 +13,11 @@ export default function AddOrUpdateProductPage({ isCreate, id }) {
     const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState("/noavatar.png")
     const [formData, setFormData] = useState({})
+    const [games, setGames] = useState([])
 
     useEffect(() => {
-        fetchGame()
+        fetchGames()
+        fetchProduct()
 
         if (!selectedFile) {
             return
@@ -27,13 +29,27 @@ export default function AddOrUpdateProductPage({ isCreate, id }) {
         return () => URL.revokeObjectURL(objectUrl)
     }, [selectedFile]);
 
-    const fetchGame = async () => {
+    const fetchGames = async () => {
+        const data = await axios.get("/api/games")
+        const tempGames = data.data.data.map(game => {
+            return {
+                "id": game.id,
+                "name": game.name,
+            }
+        })
+        setGames(tempGames)
+    }
+
+    const fetchProduct = async () => {
         if (!id) return
-        const data = await axios.get(`/api/games/${id}`)
+        const data = await axios.get(`/api/products/${id}`)
         setFormData({
             name: data.data.data.name,
             description: data.data.data.description,
             image_url: data.data.data.image_url,
+            price: data.data.data.price,
+            quantity: data.data.data.quantity,
+            game_id: data.data.data.game_id,
         })
         // const objectUrl = URL.createObjectURL(imageUrl)
         if (!selectedFile) {
@@ -59,11 +75,10 @@ export default function AddOrUpdateProductPage({ isCreate, id }) {
             formData.append("file", selectedFile)
             let response;
             if (!isCreate) {
-                response = await axios.put(`/api/games/${id}`, formData)
+                response = await axios.put(`/api/products/${id}`, formData)
             } else {
-                response = await axios.post("/api/games", formData)
+                response = await axios.post("/api/products", formData)
             }
-
             if (response.status === 201 || response.status === 200) {
                 navigate("/dashboard/products")
                 toast.success("Berhasil")
@@ -78,6 +93,9 @@ export default function AddOrUpdateProductPage({ isCreate, id }) {
 
     const initialValues = {
         name: formData["name"] ?? "",
+        game_id: formData["game_id"] ?? games[0]?.id,
+        price: formData["price"] ?? "",
+        quantity: formData["quantity"] ?? "",
         description: formData["description"] ?? "",
         image_url: formData["image_url"] ?? "",
     }
@@ -103,10 +121,23 @@ export default function AddOrUpdateProductPage({ isCreate, id }) {
                         </div>
                         <div className={styles.formContainer}>
                             <label>Name</label>
-                            <Field type="text" name="name" placeholder="Game Name"/>
+                            <Field type="text" name="name" placeholder="Product Name"/>
+                            <label>Name Game</label>
+                            <Field name="game_id" placeholder="Name Game" as="select">
+                                {games.map(game => {
+                                    return <option value={game.id}>{game.name}</option>
+                                })}
+                                {/* {games.map(game => `<option value=${game.id}>${game.name}</option>`)} */}
+                                {/* <option value="genshin">Genshin</option>
+                                <option value="hsr">HSR</option> */}
+                            </Field>
+                            <label>Price</label>
+                            <Field type="number" name="price" placeholder="Price"/>
+                            <label>Quantity</label>
+                            <Field type="number" name="quantity" placeholder="Quantity"/>
                             <label>Description</label>
                             <Field type="text" name="description" placeholder="Description"
-                                   as="textarea" rows={10}/>
+                                   as="textarea" rows={1}/>
                             <button type="submit">Update</button>
                         </div>
                     </div>

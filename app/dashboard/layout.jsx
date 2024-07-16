@@ -1,7 +1,7 @@
-import Navbar from "../ui/dashboard/navbar/navbar"
-import Sidebar from "../ui/dashboard/sidebar/sidebar"
-import styles from "../ui/dashboard/dashboard.module.css"
-import Footer from "../ui/dashboard/footer/footer"
+import Navbar from "@/app/ui/dashboard/navbar/navbar"
+import Sidebar from "@/app/ui/dashboard/sidebar/sidebar"
+import styles from "@/app/ui/dashboard/dashboard.module.css"
+import Footer from "@/app/ui/dashboard/footer/footer"
 import {Toaster} from "react-hot-toast";
 
 const Layout = ({children}) => {
@@ -9,7 +9,7 @@ const Layout = ({children}) => {
         <div className={styles.container}>
             <Toaster position={"bottom-left"}/>
             <div className={styles.menu}>
-                <Sidebar/>
+                <Sidebar />
             </div>
             <div className={styles.content}>
                 <Navbar/>

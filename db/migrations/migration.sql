@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS payments
 (
     id         BIGSERIAL PRIMARY KEY,
     name       text                     NOT NULL unique,
+    image_url text NOT NULL ,
     created_at timestamp(3) with time zone NOT NULL default now(),
     updated_at timestamp(3) with time zone NOT NULL default now(),
     deleted_at timestamp(3) with time zone
@@ -29,6 +30,7 @@ CREATE TABLE IF NOT EXISTS products
     price      numeric                  NOT NULL,
     image_url  text                     NOT NULL,
     quantity   int                      NOT NULL,
+    description text,
     created_at timestamp with time zone NOT NULL default now(),
     updated_at timestamp with time zone NOT NULL default now(),
     deleted_at timestamp with time zone
