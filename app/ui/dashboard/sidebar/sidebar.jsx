@@ -1,6 +1,7 @@
 import Image from "next/image";
 import MenuLink from "./menuLink/menuLink";
 import styles from "./sidebar.module.css"
+import Link from "next/link";
 import{
     MdDashboard,
     MdSupervisedUserCircle,
@@ -10,7 +11,6 @@ import{
     MdHelpCenter,
     MdLogout,
 } from "react-icons/md";
-import {signOut} from "@/auth";
 
 const menuItems =[
     {
@@ -84,15 +84,11 @@ const Sidebar = () => {
                     </li>
                 ))}
             </ul>
-            <form action={async () => {
-                'use server';
-                await signOut({ redirectTo: "/login" });
-            }}>
+            <Link href="/login">
                 <button className={styles.logout}>
-                    <MdLogout/>
-                    Logout
-                </button>
-            </form>
+                    <MdLogout />
+                Logout</button>
+            </Link>
         </div>
     );
 };
