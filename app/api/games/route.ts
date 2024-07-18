@@ -1,9 +1,7 @@
 import {NextResponse} from 'next/server';
-import {create, fetchGames, fetchGamesV2, isExistsByName} from "@/app/lib/gameRepository";
+import {create, fetchGamesV2, isExistsByName} from "@/app/lib/gameRepository";
 import {writeFile} from "fs/promises";
 import path from "path";
-
-BigInt.prototype.toJSON = function() { return this.toString() }
 
 export async function GET(request: Request): Promise<any> {
     try {
