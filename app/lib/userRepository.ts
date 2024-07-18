@@ -1,4 +1,5 @@
 import prisma from './prisma';
+import bcrypt from 'bcryptjs';
 
 export async function fetchUsers() : Promise<any[]> {
     return prisma.user.findMany({
@@ -26,10 +27,32 @@ export async function fetchUserByName(name: string) : Promise<any> {
 }
 
 export async function fetchUserByEmail(email: string) : Promise<any> {
-    return prisma.user.findFirst({
-        where: {
-            email: email,
-        }
+    return prisma.user.findUnique({
+        where: { email : email },
+        select : {
+            id : true,
+            name: true,
+            email: true,
+            password: true,
+            image_url: true,
+        },
+    });
+}
+
+export async function createpassword(data: any): Promise<any> {
+    const hashedPassword = bcrypt.hashSync(data.password, 10);
+    return prisma.user.create({
+        data: { ...data, password: hashedPassword }
+    });
+}
+
+export async function updatepassword(id: number, data: any): Promise<any> {
+    if (data.password) {
+        data.password = bcrypt.hashSync(data.password, 10);
+    }
+    return prisma.user.update({
+        where: { id },
+        data
     });
 }
 
