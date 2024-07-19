@@ -1,9 +1,37 @@
+"use client"
 import Link from 'next/link'
 import Card from './card/card'
 import Carousel from './carousel/carousel'
 import styles from './dashboard.module.css'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { fetchGames } from '../lib/gameRepository'
 
 export default function Dashboard(){
+    const [games, setGames] = useState([])
+
+    // useEffect( () => {
+    //     fetchGames()
+    // }, [])
+    // const fetchGames = async () => {
+    //     const gameRes = await axios.get("/api/games")
+    //     setGames (gameRes.data.data)
+    // }
+
+    useEffect (() => {
+        const fetchGames = async () => {
+            try {
+                const response = await fetch("/api/games")
+                const result = await response.json();
+                setGames(result.data);
+            } catch (error) {
+                console.error('error fetching games:',error);
+            }
+        };
+
+        fetchGames();
+    },[]);
+
     return(
         <div className={styles.wrapper}>
             <div className={styles.main}>
@@ -14,15 +42,11 @@ export default function Dashboard(){
                     <div className={styles.title}>
                         <span>Top Games</span>
                     </div>
-                    <Link className={styles.game} href="/user/product">
-                        <Card />
-                        <Card />
-                        <Card />
-                        <Card />
-                        <Card />
-                        <Card />
-                        <Card />
-                    </Link>
+                    {games.map((game) => (
+                        <Link key ={game.id} className={styles.game} href={`/user/product/${game.id}`}>
+                            <Card name={game.name} imageUrl={game.image_url}/>
+                        </Link>
+                        ))}
                 </div>
             </div>
         </div>
