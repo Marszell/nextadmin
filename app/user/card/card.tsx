@@ -1,11 +1,11 @@
 import styles from './card.module.css'
 
-export default function Card (){
+export default function Card ({name,imageUrl}){
     return(
         <div className={styles.container}>
-            <img className={styles.image} src="/icongenshin.jpg" alt="icon" />
+            <img className={styles.image} src={imageUrl} />
             <div className={styles.text}>
-                Genshin Impact
+                {name}
             </div>
         </div>
     )
