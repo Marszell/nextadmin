@@ -64,7 +64,26 @@ export async function update(id: number, data: any) : Promise<any> {
     });
 }
 
-export async function deleteGame(id: number) : Promise<any> {
+export async function deleteGameAndProduct(id: number) : Promise<any> {
+    await prisma.$transaction([
+        prisma.game.update({
+            where: {
+                id: id
+            },
+            data: {
+                deleted_at: new Date()
+            }
+        }),
+        prisma.product.updateMany({
+            where: {
+                game_id: id
+            },
+            data: {
+                deleted_at: new Date()
+            }
+        })
+    ]);
+
     // await prisma.game.update({
     //     where: {
     //         id: id
@@ -73,9 +92,9 @@ export async function deleteGame(id: number) : Promise<any> {
     //         deleted_at: new Date()
     //     }
     // });
-    await prisma.game.delete({
-        where: {
-            id: id
-        }
-    })
+//     await prisma.game.delete({
+//         where: {
+//             id: id
+//         }
+//     })
 }

@@ -18,7 +18,6 @@ const ProductsPage = () => {
     const fetchProducts = async () => {
         const productRes = await axios.get("/api/products")
         setProducts(productRes.data.data)
-        console.log(productRes)
     }
 
     const onDelete = async (id) => {

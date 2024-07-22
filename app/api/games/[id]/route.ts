@@ -1,14 +1,20 @@
-import {deleteGame, fetchGame, fetchGameByName, update} from "@/app/lib/gameRepository";
+import {deleteGameAndProduct, fetchGame, fetchGameByName, update} from "@/app/lib/gameRepository";
 import {NextResponse} from "next/server";
-import {unlink, writeFile} from "fs/promises";
+import fs from 'fs'
 import path from "path";
+import prisma from '@/app/lib/prisma';
 
 export async function DELETE(request : Request, { params }) : Promise<NextResponse> {
     try {
         const id = parseInt(params.id)
         const game = await fetchGame(id);
-        await unlink(path.join(process.cwd(), "./public/" + game.image_url));
-        await deleteGame(id)
+        await fs.unlink(path.join(process.cwd(), "./public/" + game.image_url), function(error) {});
+        // await prisma.$transaction([
+        //     await deleteGame(id),
+        //     await deleteProductByGame(id)
+        // ]);
+        await deleteGameAndProduct(id);
+        
         return NextResponse.json({ message: "Success", data: {}, error: {} }, { status: 200 });
     } catch(err) {
         console.log(err)
@@ -49,7 +55,7 @@ export async function PUT(req : Request, { params }) : Promise<NextResponse> {
             const buffer = Buffer.from(await file.arrayBuffer())
             fileName = "/uploads/" + Date.now() + file.name.replaceAll(" ", "_");
 
-            await writeFile(
+            await fs.writeFile(
                 path.join(process.cwd(), "./public/" + fileName),
                 buffer
             );
