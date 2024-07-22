@@ -3,6 +3,8 @@ import {create, fetchGamesV2, isExistsByName} from "@/app/lib/gameRepository";
 import {writeFile} from "fs/promises";
 import path from "path";
 
+BigInt.prototype.toJSON = function() { return this.toString() }
+
 export async function GET(request: Request): Promise<any> {
     try {
         const url = new URL(request.url);
@@ -10,8 +12,8 @@ export async function GET(request: Request): Promise<any> {
         const gameParam = searchParams.get("name");
         const games = await fetchGamesV2(gameParam ?? "")
         return NextResponse.json({ message: "", data: games, error: {} }, { status: 200 })
-    } catch(err) {
-        console.log(err)
+    } catch (error) {
+        return NextResponse.json({ message: "", data: {}, error: error, status: 500 });
     }
 }
 

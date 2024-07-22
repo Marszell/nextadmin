@@ -52,7 +52,7 @@ const GamesPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {games !== undefined && games.map((game) => (
+                {games.length > 0 && games.map((game) => (
                     <tr key = {game.id}>
                         <td>
                             <div className={styles.product}>

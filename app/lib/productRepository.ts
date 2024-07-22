@@ -34,6 +34,14 @@ export async function fetchProductByName(name: string) : Promise<any> {
     });
 }
 
+export async function fetchProductsById(id:number) : Promise<any>{
+    return prisma.product.findMany({
+        where: {
+            game_id: id
+        }
+    });
+}
+
 export async function fetchProductsV2(name: string) : Promise<any[]> {
     return prisma.product.findMany({
         include: {
@@ -79,3 +87,14 @@ export async function deleteProduct(id: number) : Promise<any> {
         }
     })
 }
+
+// export async function deleteProductByGame(game_id: number) : Promise<any> {
+//     await prisma.product.updateMany({
+//         where: {
+//             game_id: game_id
+//         },
+//         data: {
+//             deleted_at: new Date()
+//         }
+//     });
+// }
