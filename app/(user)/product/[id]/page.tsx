@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../sidebarproduct/sidebarproduct';
 import styles from '../product.module.css';
 import Item from "../item/item";
-import Payment from './payment/payment';
+import Payment from '../payment/payment';
 import axios from 'axios';
 import { fetchProductsById } from '@/app/lib/productRepository';
 
@@ -18,11 +18,15 @@ export default function Product() {
         fetchGames()
     }, [])
 
-    
-
     const fetchGames = async () => {
-        const gameRep = await axios.get("/api/games")
-        setGames (gameRep.data.data)
+        const data = await axios.get("/api/games")
+        const tempGames = data.data.data.map(game => {
+            return {
+                "id": game.id,
+                "name": game.name,
+            }
+        })
+        setGames(tempGames)
     }
 
     const fetchProductsById = async () => {
@@ -30,7 +34,7 @@ export default function Product() {
         setProducts(productRep.data.data)
     }
 
-    // const filtered = 
+    const filtered = products .filter(product => product.game_id === games.id);
 
     const fetchPayments = async () => {
         const paymentRep = await axios.get("/api/payments")
@@ -39,17 +43,17 @@ export default function Product() {
     
     // const filteredProducts = products.filter(product => product.game_id === selectedGame);
 
-    // const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItem, setSelectedItem] = useState(null);
 
-    // const [selectedPayment,setSelectedPayment] = useState(null);
+    const [selectedPayment,setSelectedPayment] = useState(null);
 
-    // const handleItemClick = (index) => {
-    //     setSelectedItem(index);
-    // };
+    const handleItemClick = (index) => {
+        setSelectedItem(index);
+    };
 
-    // const handlePaymentClick = (index) => {
-    //     setSelectedPayment(index);
-    // };
+    const handlePaymentClick = (index) => {
+        setSelectedPayment(index);
+    };
 
     return (
         <div className={styles.container}>
@@ -64,15 +68,17 @@ export default function Product() {
                 <div className={styles.box}>
                     <span>Product</span>
                     <div className={styles.item}>
-                        { == products && products.map((product) => (
+                        {products.map((product, index) => (
                             <Item 
+                            key={index}
                             name={product.name}
                             imageUrl={product.image_url}
                             desc={product.description}
                             price={product.price}
+                            onClick={() => handleItemClick(index)}
+                            isSelected={selectedItem === index}
                             />
-
-                        ))}
+                        ))} 
                         
                         {/* {[...Array(7)].map((_, index) => (
                             <Item
@@ -85,18 +91,20 @@ export default function Product() {
                 </div>
                 <div className={styles.payment}>
                     <span>Payment</span>
-                    {/* {[...Array(7)].map((_, index) => (
+                    {payments.map((payment, index) => (
                         <Payment
-                                key={index}
-                                onClick={() => handlePaymentClick(index)}
-                                isSelected={selectedPayment === index}
-                            />
-                    ))} */}
+                        key={index}
+                        name={payment.name}
+                        imageUrl={payment.image_url}
+                        onClick={() => handlePaymentClick(index)}
+                        isSelected={selectedPayment === index}
+                        />
+                    ))}
                 </div>
                 <div className={styles.email}>
                     <span>Email (optional)</span>
                     <input type="text" />
-                        <button className={styles.button}>Beli Sekarang</button>
+                    <button className={styles.button}>Beli Sekarang</button>
                 </div>
             </div>
         </div>

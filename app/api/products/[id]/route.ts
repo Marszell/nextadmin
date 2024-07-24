@@ -1,6 +1,7 @@
 import {deleteProduct, fetchProduct, fetchProductByName, update} from "@/app/lib/productRepository";
 import {NextResponse} from "next/server";
 import {unlink, writeFile} from "fs/promises";
+import fs from 'fs'
 import path from "path";
 
 export async function DELETE(request : Request, { params }) : Promise<NextResponse> {

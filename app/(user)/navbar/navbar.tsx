@@ -11,7 +11,7 @@ export default function Navbar () {
     return(
         <div className={styles.container}>
             <div className={styles.left}>
-                <Link href='/user'>
+                <Link href='../'>
                     <div className={styles.title}>VFun</div>
                 </Link>
             </div>
