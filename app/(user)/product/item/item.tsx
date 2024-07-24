@@ -20,7 +20,7 @@ import styles from './item.module.css';
 //     );
 // }
 
-export default function Item({ name, imageUrl, desc, price },{isSelected, onClick}) {
+export default function Item({ name, imageUrl, desc, price, isSelected, onClick}) {
     return (
         <div className={`${styles.container} ${isSelected ? styles.selected : ''}`}
             onClick={onClick}>
