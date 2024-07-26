@@ -42,18 +42,27 @@ export async function fetchProductsById(id:number) : Promise<any>{
     });
 }
 
-export async function fetchProductsV2(name: string) : Promise<any[]> {
-    return prisma.product.findMany({
-        include: {
-            game: true,
-          },
-        where: {
-            deleted_at: null,
-            name: {
-                contains: name
-            }
-        }
-    });
+export async function fetchProductsV2(name: string, game_id: number) : Promise<any[]> {
+    return prisma.$queryRawUnsafe(`
+        SELECT p.*, g.id as game_id, g.name as game_name
+        FROM products p
+        JOIN games g on p.game_id = g.id
+        WHERE (p.name ILIKE $1 or g.name ILIKE $1)
+        AND (coalesce($2, null) is null or g.id = cast(cast($2 as text) as bigint))
+        AND p.deleted_at is null
+        AND g.deleted_at is null
+        `, `%${name}%`, game_id)
+    // return prisma.games.findMany({
+    //     include: {
+    //         game: true,
+    //       },
+    //     where: {
+    //         deleted_at: null,
+    //         name: {
+    //             contains: name
+    //         },
+    //     }
+    // });
 }
 
 export async function isExistsByName(name: string) : Promise<boolean> {
@@ -89,7 +98,7 @@ export async function deleteProduct(id: number) : Promise<any> {
 }
 
 // export async function deleteProductByGame(game_id: number) : Promise<any> {
-//     await prisma.product.updateMany({
+//     await prisma.games.updateMany({
 //         where: {
 //             game_id: game_id
 //         },
@@ -98,3 +107,11 @@ export async function deleteProduct(id: number) : Promise<any> {
 //         }
 //     });
 // }
+
+export async function countProducts() : Promise<number> {
+    return prisma.product.count({
+        where: {
+            deleted_at: null
+        }
+    });
+}

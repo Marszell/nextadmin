@@ -5,7 +5,7 @@ import styles from './product.module.css';
 import Item from "./item/item";
 import Payment from './payment/payment';
 
-export default function Product() {
+export default function Games() {
     const [selectedItem, setSelectedItem] = useState(null);
 
     const [selectedPayment,setSelectedPayment] = useState(null);

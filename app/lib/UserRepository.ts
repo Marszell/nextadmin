@@ -39,27 +39,6 @@ export async function fetchUserByEmail(email: string) : Promise<any> {
     });
 }
 
-export async function createpassword(data: any): Promise<any> {
-    const hashedPassword = bcrypt.hashSync(data.password, 10);
-    return prisma.user.create({
-        data: { ...data, password: hashedPassword }
-    });
-}
-
-export async function updatepassword(id: number, data: any): Promise<any> {
-    if (data.password) {
-        data.password = bcrypt.hashSync(data.password, 10);
-    }
-    return prisma.user.update({
-        where: { id },
-        data
-    });
-}
-
-// export async function fetchUserByNameV2(name: string) : Promise<any> {
-//     return prisma.$queryRaw`SELECT * FROM user WHERE name LIKE "%${name}%"`;
-// }
-
 export async function fetchUsersV2(name: string) : Promise<any[]> {
     return prisma.user.findMany({
         where: {

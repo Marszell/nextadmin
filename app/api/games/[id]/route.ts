@@ -1,23 +1,19 @@
-import {deleteGameAndProduct, fetchGame, fetchGameByName, update} from "@/app/lib/gameRepository";
+import {deleteGameAndProduct, fetchGame, fetchGameByName, update} from "@/app/lib/GameRepository";
 import {NextResponse} from "next/server";
 import fs from 'fs'
 import path from "path";
-import prisma from '@/app/lib/prisma';
+import {GameFormSchema} from "@/app/lib/Validations";
 
 export async function DELETE(request : Request, { params }) : Promise<NextResponse> {
     try {
         const id = parseInt(params.id)
         const game = await fetchGame(id);
         await fs.unlink(path.join(process.cwd(), "./public/" + game.image_url), function(error) {});
-        // await prisma.$transaction([
-        //     await deleteGame(id),
-        //     await deleteProductByGame(id)
-        // ]);
         await deleteGameAndProduct(id);
         
         return NextResponse.json({ message: "Success", data: {}, error: {} }, { status: 200 });
-    } catch(err) {
-        console.log(err)
+    } catch(error) {
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }
 
@@ -26,30 +22,44 @@ export async function GET(request : Request, { params }) : Promise<NextResponse>
         const id = parseInt(params.id)
         const game = await fetchGame(id)
         return NextResponse.json({ message: "", data: game, error: {} }, { status: 200 });
-    } catch(err) {
-        console.log(err)
+    } catch(error) {
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }
 
+const CreateGame = GameFormSchema.omit({file: true})
 export async function PUT(req : Request, { params }) : Promise<NextResponse> {
-    const id = parseInt(params.id)
-
     try {
         const formData = await req.formData()
-        const file = formData.get("file")
 
-        const gameName = formData.get("name").toString();
-        const gameById = await fetchGame(id);
-        const gameByName = await fetchGameByName(gameName);
-        if (gameByName !== null && parseInt(gameByName.id) !== id) {
-            return NextResponse.json(
-                {
-                    message: "Duplicate game name",
-                    data: {},
-                    error: {},
-                },
-                { status: 400 })
+        const validatedFormData = GameFormSchema.safeParse({
+            id: parseInt(params['id']),
+            name: formData.get("name"),
+            file: formData.get("file"),
+        })
+
+        if (!validatedFormData.success) {
+            return NextResponse.json({
+                message: "Update Game failed",
+                data: {},
+                error: validatedFormData.error.flatten().fieldErrors
+            }, { status: 400 });
         }
+
+        const id = parseInt(params.id)
+        const file = formData.get("file")
+        const gameById = await fetchGame(id);
+        // const gameName = formData.get("name").toString();
+        // const gameByName = await fetchGameByName(gameName);
+        // if (gameByName !== null && parseInt(gameByName.id) !== id) {
+        //     return NextResponse.json(
+        //         {
+        //             message: "Duplicate game name",
+        //             data: {},
+        //             error: {},
+        //         },
+        //         { status: 400 })
+        // }
         let fileName = gameById.image_url;
         if (file !== "undefined" && fileName !== null) {
             const buffer = Buffer.from(await file.arrayBuffer())
@@ -60,7 +70,7 @@ export async function PUT(req : Request, { params }) : Promise<NextResponse> {
                 buffer
             );
 
-            await unlink(path.join(process.cwd(), "./public/" + gameById.image_url));
+            await fs.unlink(path.join(process.cwd(), "./public/" + gameById.image_url), function(error) {});
         }
         const form = {}
         for (const pair of formData.entries()) {
@@ -73,6 +83,6 @@ export async function PUT(req : Request, { params }) : Promise<NextResponse> {
         })
         return NextResponse.json({ message: "Success", data: {}, errors: {} }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ message: "", data: {}, error: error, status: 500 })
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }

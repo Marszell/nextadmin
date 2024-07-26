@@ -10,7 +10,8 @@ import{
     MdHelpCenter,
     MdLogout,
 } from "react-icons/md";
-import {signOut} from "@/auth";
+import {auth, signOut} from "@/auth";
+import {fetchUserByEmail} from "@/app/lib/UserRepository";
 
 const menuItems =[
     {
@@ -43,7 +44,7 @@ const menuItems =[
             },
             {
                 title:"Transactions",
-                path:"/dashboard/transactions",
+                path:"/dashboard/orders",
                 icon: <MdAttachMoney />,
             },
         ],
@@ -64,13 +65,17 @@ const menuItems =[
         ],
     },
 ];
-const Sidebar = () => {
+const Sidebar = async () => {
+    // TODO: James
+    const session = await auth();
+    const user = await fetchUserByEmail(session.user.email);
+
     return (
         <div className={styles.container}>
             <div className={styles.user}>
-                <Image className={styles.userImage} src="/noavatar.png" alt="" width="50" height="50"/>
+                <Image className={styles.userImage} src={user?.image_url ?? "/noavatar.png"} alt="" width="50" height="50"/>
                 <div className={styles.userDetail}>
-                    <span className={styles.username}>John Joe</span>
+                    <span className={styles.username}>{session.user.name}</span>
                     <span className={styles.userTitle}>Administrator</span>
                 </div>
             </div>

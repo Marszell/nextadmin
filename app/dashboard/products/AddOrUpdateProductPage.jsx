@@ -8,6 +8,7 @@ import {Field, Formik} from "formik";
 import {navigate} from "@/app/dashboard/products/add/action";
 import {LoaderIcon, toast} from 'react-hot-toast'
 import axios from "axios";
+import * as Yup from "yup";
 
 export default function AddOrUpdateProductPage({ isCreate, id }) {
     const [selectedFile, setSelectedFile] = useState()
@@ -102,14 +103,28 @@ export default function AddOrUpdateProductPage({ isCreate, id }) {
 
     if (!isCreate && Object.keys(formData).length === 0) return <LoaderIcon />
 
+    const AddOrUpdateSchema = Yup.object().shape({
+        name: Yup.string().required("Please fill name field"),
+        game_id: Yup.string().required("Please fill game field"),
+        price: Yup.number().required("Please fill price field")
+            .positive("Please fill price field with positive number")
+            .integer("Please fill price field with positive number"),
+        quantity: Yup.number().required("Please fill quantity field")
+            .positive("Please fill quantity field with positive number")
+            .integer("Please fill quantity field with positive number"),
+    })
+
     return (
         <Formik
             enableReinitialize={true}
             initialValues={initialValues}
             onSubmit={onSubmit}
+            validationSchema={AddOrUpdateSchema}
         >
             {({
                 handleSubmit,
+                errors,
+                touched,
             }) => (
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.container}>
@@ -122,23 +137,42 @@ export default function AddOrUpdateProductPage({ isCreate, id }) {
                         <div className={styles.formContainer}>
                             <label>Name</label>
                             <Field type="text" name="name" placeholder="Product Name"/>
+                            {errors.name && touched.name ? (
+                                <div class="text-bg-danger border border-red-400 text-red-700 px-4 py-2 rounded relative"
+                                     role="alert">
+                                    <strong class="font-bold">{errors.name}</strong>
+                                </div>
+                            ) : null}
                             <label>Name Game</label>
                             <Field name="game_id" placeholder="Name Game" as="select">
-                                {games.map(game => {
-                                    return <option value={game.id}>{game.name}</option>
-                                })}
-                                {/* {games.map(game => `<option value=${game.id}>${game.name}</option>`)} */}
-                                {/* <option value="genshin">Genshin</option>
-                                <option value="hsr">HSR</option> */}
+                                {games.map(game => <option key={game.id} value={game.id}>{game.name}</option>)}
                             </Field>
+                            {errors.game_id && touched.game_id ? (
+                                <div class="text-bg-danger border border-red-400 text-red-700 px-4 py-2 rounded relative"
+                                     role="alert">
+                                    <strong class="font-bold">{errors.game_id}</strong>
+                                </div>
+                            ) : null}
                             <label>Price</label>
-                            <Field type="number" name="price" placeholder="Price"/>
+                            <Field type="number" name="price" placeholder="Price" min={0} />
+                            {errors.price && touched.price ? (
+                                <div class="text-bg-danger border border-red-400 text-red-700 px-4 py-2 rounded relative"
+                                     role="alert">
+                                    <strong class="font-bold">{errors.price}</strong>
+                                </div>
+                            ) : null}
                             <label>Quantity</label>
-                            <Field type="number" name="quantity" placeholder="Quantity"/>
+                            <Field type="number" name="quantity" placeholder="Quantity" min={0} />
+                            {errors.quantity && touched.quantity ? (
+                                <div class="text-bg-danger border border-red-400 text-red-700 px-4 py-2 rounded relative"
+                                     role="alert">
+                                    <strong class="font-bold">{errors.quantity}</strong>
+                                </div>
+                            ) : null}
                             <label>Description</label>
                             <Field type="text" name="description" placeholder="Description"
                                    as="textarea" rows={1}/>
-                            <button type="submit">Update</button>
+                            <button type="submit">{isCreate ? "Add" : "Update"}</button>
                         </div>
                     </div>
                 </form>

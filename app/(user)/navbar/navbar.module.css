@@ -43,12 +43,18 @@
     max-width: 600px;
 }
 
-.input{
-    background-color: transparent;
-    border: none;
-    color: var(--text);
+.input {
     width: 100%;
+    color: white;
 }
+
+.input::placeholder {
+    color: green;
+}
+
+/*.options {*/
+/*    background-color: red;*/
+/*}*/
 
 .icons{
     display: flex;

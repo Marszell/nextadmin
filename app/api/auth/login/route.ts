@@ -1,5 +1,5 @@
 import {NextResponse} from "next/server";
-import {create, isExistsByName} from "@/app/lib/gameRepository";
+import {create, isExistsByName} from "@/app/lib/GameRepository";
 import {writeFile} from "fs/promises";
 import path from "path";
 import {signIn} from "@/auth";

@@ -1,7 +1,8 @@
 import {NextResponse} from 'next/server';
-import {create, fetchPayments, fetchPaymentsV2, isExistsByName} from "@/app/lib/paymentRepository";
+import {create, fetchPayments, fetchPaymentsV2, isExistsByName} from "@/app/lib/PaymentRepository";
 import {writeFile} from "fs/promises";
 import path from "path";
+import {GameFormSchema, PaymentFormSchema} from "@/app/lib/Validations";
 
 BigInt.prototype.toJSON = function() { return this.toString() }
 
@@ -17,14 +18,29 @@ export async function GET(request: Request): Promise<any> {
             payments = await fetchPaymentsV2(paymentParam);
         }
         return NextResponse.json({ message: "", data: payments, error: {} }, { status: 200 })
-    } catch(err) {
-        console.log(err)
+    } catch(error) {
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }
 
+const CreatePayment = PaymentFormSchema.omit({id: true})
 export async function POST(request: Request): Promise<NextResponse> {
     try {
         const formData = await request.formData()
+
+        const validatedFormData = CreatePayment.safeParse({
+            name: formData.get("name"),
+            file: formData.get("file"),
+        })
+
+        if (!validatedFormData.success) {
+            return NextResponse.json({
+                message: "Create Payment failed",
+                data: {},
+                error: validatedFormData.error.flatten().fieldErrors
+            }, { status: 400 });
+        }
+
         const file = formData.get("file")
         if (!file) {
             return NextResponse.json({ error: "No files received." }, { status: 400 })
@@ -63,6 +79,6 @@ export async function POST(request: Request): Promise<NextResponse> {
         );
         return NextResponse.json({ message: "Success", data: {}, error: {} }, { status: 201 });
     } catch (error) {
-        return NextResponse.json({ message: "", data: {}, error: error, status: 500 })
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }
