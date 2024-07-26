@@ -98,3 +98,11 @@ export async function deleteGameAndProduct(id: number) : Promise<any> {
 //         }
 //     })
 }
+
+export async function countGames() : Promise<number> {
+    return prisma.game.count({
+        where: {
+            deleted_at: null
+        }
+    });
+}
