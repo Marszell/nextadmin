@@ -15,7 +15,7 @@ export default function Dashboard(){
     }, [])
     const fetchGames = async () => {
         const gameRes = await axios.get("/api/games")
-        setGames (gameRes.data.data)
+        setGames(gameRes.data.data)
     }
 
     // useEffect (() => {
@@ -42,11 +42,13 @@ export default function Dashboard(){
                     <div className={styles.title}>
                         <span>Top Games</span>
                     </div>
-                    {games.map((game) => (
-                        <Link key ={game.id} className={styles.game} href={`/product/${game.id}`}>
-                            <Card name={game.name} imageUrl={game.image_url}/>
-                        </Link>
+                    <div className={styles.game_container}>
+                        {games.map((game) => (
+                            <Link key ={game.id} className={styles.game} href={`/games/${game.id}`}>
+                                <Card name={game.name} imageUrl={game.image_url}/>
+                            </Link>
                         ))}
+                    </div>
                 </div>
             </div>
         </div>

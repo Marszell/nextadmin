@@ -52,17 +52,19 @@ const UsersPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {users !== undefined && users.map((user) => (
+                {users.length > 0 && users.map((user) => (
                     <tr key = {user.id}>
                         <td>
                             <div className={styles.product}>
-                                <Image
-                                    src={user.image_url}
-                                    alt=""
-                                    width={40}
-                                    height={40}
-                                    // className={styles.productImage}
-                                />
+                                {user.image_url !== null ?
+                                    <Image
+                                        src={user.image_url}
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                        // className={styles.productImage}
+                                    /> : null
+                                }
                                 {user.name}
                             </div>
                         </td>

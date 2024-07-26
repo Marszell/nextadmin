@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,73 +8,74 @@ datasource db {
 }
 
 model Game {
-  id          BigInt    @default(autoincrement()) @id
-  name        String    @unique
+  id          BigInt    @id @default(autoincrement())
+  name        String
   description String?
   image_url   String
-  products    Product[]
   created_at  DateTime  @default(now()) @db.Timestamptz(3)
   updated_at  DateTime? @updatedAt @db.Timestamptz(3)
   deleted_at  DateTime? @db.Timestamptz(3)
+  products    Product[]
 
   @@map("games")
 }
 
 model Payment {
-  id         BigInt    @default(autoincrement()) @id
-  name       String    @unique
-  image_url  String
-  orders     Order[]
-  created_at DateTime  @default(now()) @db.Timestamptz(3)
-  updated_at DateTime? @updatedAt @db.Timestamptz(3)
-  deleted_at DateTime? @db.Timestamptz(3)
-
-  @@map("payments")
-}
-
-model Product {
-  id         BigInt    @default(autoincrement()) @id
-  game_id    BigInt
-  game       Game      @relation(fields: [game_id], references: [id])
-  name       String    @unique
-  image_url  String
-  price      Int
-  quantity   Int
-  description String?
-  orders     Order[]
-  created_at DateTime  @default(now()) @db.Timestamptz(3)
-  updated_at DateTime? @updatedAt @db.Timestamptz(3)
-  deleted_at DateTime? @db.Timestamptz(3)
-
-  @@map("products")
-}
-
-model User {
-  id         BigInt    @default(autoincrement()) @id
-  email      String    @unique
-  password   String
+  id         BigInt    @id @default(autoincrement())
   name       String
   image_url  String
   created_at DateTime  @default(now()) @db.Timestamptz(3)
   updated_at DateTime? @updatedAt @db.Timestamptz(3)
   deleted_at DateTime? @db.Timestamptz(3)
+  orders     Order[]
+
+  @@map("payments")
+}
+
+model Product {
+  id          BigInt    @id @default(autoincrement())
+  game_id     BigInt
+  name        String
+  description String?
+  price       Int
+  image_url   String
+  quantity    Int
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime? @updatedAt @db.Timestamptz(6)
+  deleted_at  DateTime? @db.Timestamptz(6)
+  orders      Order[]
+  game        Game      @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("products")
+}
+
+model User {
+  id         BigInt    @id @default(autoincrement())
+  email      String    @unique
+  password   String
+  name       String
+  image_url  String?
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @updatedAt @db.Timestamptz(6)
+  deleted_at DateTime? @db.Timestamptz(6)
 
   @@map("users")
 }
 
 model Order {
-  id             BigInt    @default(autoincrement()) @id
+  id             BigInt    @id @default(autoincrement())
   payment_id     BigInt
-  payment        Payment   @relation(fields: [payment_id], references: [id])
   product_id     BigInt
-  product        Product   @relation(fields: [product_id], references: [id])
-  price          Int
-  status_order   String
-  payment_status String
-  server         String
-  created_at     DateTime  @default(now()) @db.Timestamptz(3)
-  updated_at     DateTime? @updatedAt @db.Timestamptz(3)
-  deleted_at     DateTime? @db.Timestamptz(3)
+  uid            String
+  email          String?
+  price          Decimal   @db.Decimal
+  status_order   String?
+  payment_status String?
+  created_at     DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime? @updatedAt @db.Timestamptz(6)
+  deleted_at     DateTime? @db.Timestamptz(6)
+  payments       Payment   @relation(fields: [payment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product        Product   @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("orders")
 }

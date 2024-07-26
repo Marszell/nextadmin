@@ -1,6 +1,6 @@
 import styles from './payment.module.css'
 
-export default function Payment({ name, imageUrl, isSelected,onClick}){
+export default function Payment({ label, imageUrl, isSelected,onClick}){
     return(
         <div className={`${styles.container} ${isSelected ? styles.selected : ''}`}
             onClick={onClick}>
@@ -9,7 +9,7 @@ export default function Payment({ name, imageUrl, isSelected,onClick}){
                     <img src={imageUrl} alt="icon payment" />
                 </div>
                 <div className={styles.paymentname}>
-                    <span>{name}</span>
+                    <span>{label}</span>
                 </div>
             </div>
             {/* <div className={styles.rightside}>

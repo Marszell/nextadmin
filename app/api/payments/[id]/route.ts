@@ -1,7 +1,8 @@
-import {deletePayment, fetchPayment, fetchPaymentByName, update} from "@/app/lib/paymentRepository";
+import {deletePayment, fetchPayment, fetchPaymentByName, update} from "@/app/lib/PaymentRepository";
 import {NextResponse} from "next/server";
 import {unlink, writeFile} from "fs/promises";
 import path from "path";
+import {PaymentFormSchema} from "@/app/lib/Validations";
 
 export async function DELETE(request : Request, { params }) : Promise<NextResponse> {
     try {
@@ -10,8 +11,8 @@ export async function DELETE(request : Request, { params }) : Promise<NextRespon
         await unlink(path.join(process.cwd(), "./public/" + payment.image_url));
         await deletePayment(id)
         return NextResponse.json({ message: "Success", data: {}, error: {} }, { status: 200 });
-    } catch(err) {
-        console.log(err)
+    } catch(error) {
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }
 
@@ -20,18 +21,32 @@ export async function GET(request : Request, { params }) : Promise<NextResponse>
         const id = parseInt(params.id)
         const payment = await fetchPayment(id)
         return NextResponse.json({ message: "", data: payment, error: {} }, { status: 200 });
-    } catch(err) {
-        console.log(err)
+    } catch(error) {
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }
 
+const UpdatePayment = PaymentFormSchema.omit({file: true})
 export async function PUT(req : Request, { params }) : Promise<NextResponse> {
-    const id = parseInt(params.id)
-
     try {
         const formData = await req.formData()
-        const file = formData.get("file")
 
+        const validatedFormData = UpdatePayment.safeParse({
+            id: parseInt(params['id']),
+            name: formData.get("name"),
+            file: formData.get("file"),
+        })
+
+        if (!validatedFormData.success) {
+            return NextResponse.json({
+                message: "Update Payment failed",
+                data: {},
+                error: validatedFormData.error.flatten().fieldErrors
+            }, { status: 400 });
+        }
+
+        const file = formData.get("file")
+        const id = parseInt(params.id)
         const paymentName = formData.get("name").toString();
         const paymentById = await fetchPayment(id);
         const paymentByName = await fetchPaymentByName(paymentName);
@@ -67,6 +82,6 @@ export async function PUT(req : Request, { params }) : Promise<NextResponse> {
         })
         return NextResponse.json({ message: "Success", data: {}, errors: {} }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ message: "", data: {}, error: error, status: 500 })
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }

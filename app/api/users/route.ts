@@ -1,7 +1,9 @@
 import {NextResponse} from 'next/server';
-import {create, fetchUsers, fetchUsersV2, isExistsByName, fetchUserByEmail} from "@/app/lib/userRepository";
+import {create, fetchUsers, fetchUsersV2, isExistsByName, fetchUserByEmail} from "@/app/lib/UserRepository";
 import {writeFile} from "fs/promises";
 import path from "path";
+import {GameFormSchema, UserFormSchema} from "@/app/lib/Validations";
+import bcrypt from "bcryptjs";
 
 BigInt.prototype.toJSON = function() { return this.toString() }
 
@@ -10,17 +12,33 @@ export async function GET(request: Request): Promise<any> {
         const url = new URL(request.url);
         const searchParams = new URLSearchParams(url.searchParams);
         const userParam = searchParams.get("name");
-        // const users = await fetchUsersV2(userParam ?? "")
         const users = await fetchUsersV2(userParam ?? "")
         return NextResponse.json({ message: "", data: users, error: {} }, { status: 200 })
-    } catch(err) {
-        console.log(err)
+    } catch(error) {
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }
 
+const CreateUser = UserFormSchema.omit({id: true})
 export async function POST(request: Request): Promise<NextResponse> {
     try {
         const formData = await request.formData()
+
+        const validatedFormData = CreateUser.safeParse({
+            name: formData.get("name"),
+            email: formData.get("email"),
+            password: formData.get("password"),
+            file: formData.get("file"),
+        })
+
+        if (!validatedFormData.success) {
+            return NextResponse.json({
+                message: "Create User failed",
+                data: {},
+                error: validatedFormData.error.flatten().fieldErrors
+            }, { status: 400 });
+        }
+
         const file = formData.get("file")
         if (!file) {
             return NextResponse.json({ error: "No files received." }, { status: 400 })
@@ -45,8 +63,12 @@ export async function POST(request: Request): Promise<NextResponse> {
         // const form = Object.fromEntries(formData.entries())
         const form = {}
         for (const pair of formData.entries()) {
-            if(pair[0] == "file") continue
-            form[pair[0]] = pair[1]
+            if (pair[0] == "file") continue
+            if (pair[0] === "password") {
+                form[pair[0]] = bcrypt.hashSync(pair[1], 10);
+            } else {
+                form[pair[0]] = pair[1]
+            }
         }
 
         await create({
@@ -59,6 +81,6 @@ export async function POST(request: Request): Promise<NextResponse> {
         );
         return NextResponse.json({ message: "Success", data: {}, error: {} }, { status: 201 });
     } catch (error) {
-        return NextResponse.json({ message: "", data: {}, error: error, status: 500 })
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }
