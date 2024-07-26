@@ -1,7 +1,8 @@
 import {NextResponse} from 'next/server';
-import {create, fetchGamesV2, isExistsByName} from "@/app/lib/gameRepository";
+import {create, fetchGamesV2, isExistsByName} from "@/app/lib/GameRepository";
 import {writeFile} from "fs/promises";
 import path from "path";
+import {GameFormSchema} from "@/app/lib/Validations";
 
 BigInt.prototype.toJSON = function() { return this.toString() }
 
@@ -13,30 +14,45 @@ export async function GET(request: Request): Promise<any> {
         const games = await fetchGamesV2(gameParam ?? "")
         return NextResponse.json({ message: "", data: games, error: {} }, { status: 200 })
     } catch (error) {
-        return NextResponse.json({ message: "", data: {}, error: error, status: 500 });
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 });
     }
 }
 
+const CreateGame = GameFormSchema.omit({id: true})
 export async function POST(request: Request): Promise<NextResponse> {
     try {
         const formData = await request.formData()
+
+        const validatedFormData = CreateGame.safeParse({
+            name: formData.get("name"),
+            file: formData.get("file"),
+        })
+
+        if (!validatedFormData.success) {
+            return NextResponse.json({
+                    message: "Create Game failed",
+                    data: {},
+                    error: validatedFormData.error.flatten().fieldErrors
+                }, { status: 400 });
+        }
+
         const file = formData.get("file")
         if (!file) {
             return NextResponse.json({ error: "No files received." }, { status: 400 })
         }
 
-        const gameName = formData.get("name").toString();
-        const isExists = await isExistsByName(gameName);
-        if (isExists) {
-            return NextResponse.json(
-                {
-                    message: "Duplicate game name",
-                    data: {},
-                    error: {},
-                },
-                { status: 400 }
-            )
-        }
+        // const gameName = formData.get("name").toString();
+        // const isExists = await isExistsByName(gameName);
+        // if (isExists) {
+        //     return NextResponse.json(
+        //         {
+        //             message: "Duplicate game name",
+        //             data: {},
+        //             error: {},
+        //         },
+        //         { status: 400 }
+        //     )
+        // }
 
         const buffer = Buffer.from(await file.arrayBuffer())
         const fileName = "/uploads/" + Date.now() + file.name.replaceAll(" ", "_");
@@ -58,6 +74,6 @@ export async function POST(request: Request): Promise<NextResponse> {
         );
         return NextResponse.json({ message: "Success", data: {}, error: {} }, { status: 201 });
     } catch (error) {
-        return NextResponse.json({ message: "", data: {}, error: error, status: 500 })
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }

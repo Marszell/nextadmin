@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import styles from './transactions.module.css'
 
-const Transactions = () => {
+const Transactions = ({ orders }) => {
     return(
         <div className={styles.container}>
             <h2 className={styles.title}>Lastest Transactions</h2>

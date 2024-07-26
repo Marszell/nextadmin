@@ -69,7 +69,7 @@ const ProductsPage = () => {
                             </div>
                         </td>
                         <td>{product.name}</td>
-                        <td>{product.game.name}</td>
+                        <td>{product.game_name}</td>
                         <td>{product.description}</td>
                         <td>{product.price}</td>
                         <td>{product.quantity}</td>

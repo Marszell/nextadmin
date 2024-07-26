@@ -8,6 +8,7 @@ import {Field, Formik} from "formik";
 import {navigate} from "@/app/dashboard/users/add/action";
 import {LoaderIcon, toast} from 'react-hot-toast'
 import axios from "axios";
+import * as Yup from "yup";
 
 export default function AddOrUpdateUserPage({ isCreate, id }) {
     const [selectedFile, setSelectedFile] = useState()
@@ -80,9 +81,15 @@ export default function AddOrUpdateUserPage({ isCreate, id }) {
     const initialValues = {
         name: formData["name"] ?? "",
         email: formData["email"] ?? "",
-        // created_at: formData["created_at"] ?? "",
+        password: "",
         image_url: formData["image_url"] ?? "",
     }
+
+    const AddOrUpdateSchema = Yup.object().shape({
+        name: Yup.string().required("Please fill name field"),
+        email: Yup.string().required("Please fill email field").email("Please enter a valid email address"),
+        password: Yup.string().required("Please fill password field").min(6, "Password must be at least 6 characters"),
+    })
 
     if (!isCreate && Object.keys(formData).length === 0) return <LoaderIcon />
 
@@ -91,9 +98,12 @@ export default function AddOrUpdateUserPage({ isCreate, id }) {
             enableReinitialize={true}
             initialValues={initialValues}
             onSubmit={onSubmit}
+            validationSchema={AddOrUpdateSchema}
         >
             {({
                 handleSubmit,
+                errors,
+                touched,
             }) => (
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.container}>
@@ -106,11 +116,29 @@ export default function AddOrUpdateUserPage({ isCreate, id }) {
                         <div className={styles.formContainer}>
                             <label>Name</label>
                             <Field type="text" name="name" placeholder="User Name"/>
+                            {errors.name && touched.name ? (
+                                <div class="text-bg-danger border border-red-400 text-red-700 px-4 py-2 rounded relative"
+                                     role="alert">
+                                    <strong class="font-bold">{errors.name}</strong>
+                                </div>
+                            ) : null}
                             <label>Email</label>
                             <Field type="email" name="email" placeholder="Email"/>
+                            {errors.email && touched.email ? (
+                                <div class="text-bg-danger border border-red-400 text-red-700 px-4 py-2 rounded relative"
+                                     role="alert">
+                                    <strong class="font-bold">{errors.email}</strong>
+                                </div>
+                            ) : null}
                             <label>Password</label>
                             <Field type="password" name="password" placeholder="Password"/>
-                            <button type="submit">Update</button>
+                            {errors.password && touched.password ? (
+                                <div class="text-bg-danger border border-red-400 text-red-700 px-4 py-2 rounded relative"
+                                     role="alert">
+                                    <strong class="font-bold">{errors.password}</strong>
+                                </div>
+                            ) : null}
+                            <button type="submit">{isCreate ? "Add" : "Update"}</button>
                         </div>
                     </div>
                 </form>

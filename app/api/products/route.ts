@@ -1,7 +1,9 @@
 import {NextResponse} from 'next/server';
-import {create, fetchProductsV2, isExistsByName} from "@/app/lib/productRepository";
+import {create, fetchProductsV2, isExistsByName} from "@/app/lib/ProductRepository";
 import {writeFile} from "fs/promises";
 import path from "path";
+import {GameFormSchema, ProductFormSchema} from "@/app/lib/Validations";
+import {isNumber} from "@/app/lib/Utils";
 
 BigInt.prototype.toJSON = function() { return this.toString() }
 
@@ -9,39 +11,54 @@ export async function GET(request: Request): Promise<any> {
     try {
         const url = new URL(request.url);
         const searchParams = new URLSearchParams(url.searchParams);
-        const productParam = searchParams.get("name");
-        const products = await fetchProductsV2(productParam ?? "")
-        // if (!productParam) {
-        //     products = await fetchProducts();
-        // } else {
-        //     products = await fetchProductsV2(productParam);
-        // }
+        const gameOrProductName = searchParams.get("name");
+        const gameId = searchParams.get("game_id") !== null ? Number(BigInt(searchParams.get("game_id"))) : null;
+        const products = await fetchProductsV2(gameOrProductName ?? "", gameId)
+        // TODO: James
         return NextResponse.json({ message: "", data: products, error: {} }, { status: 200 })
-    } catch(err) {
-        console.log(err)
+    } catch(error) {
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }
 
+const CreateProduct = ProductFormSchema.omit({id: true})
 export async function POST(request: Request): Promise<NextResponse> {
     try {
         const formData = await request.formData()
+
+        const validatedFormData = CreateProduct.safeParse({
+            name: formData.get("name"),
+            game_id: isNumber(formData.get("game_id")) ? Number(formData.get("game_id")) : formData.get("game_id"),
+            price: isNumber(formData.get("price")) ? Number(formData.get("price")) : formData.get("price"),
+            quantity: isNumber(formData.get("quantity")) ? Number(formData.get("quantity")) : formData.get("quantity"),
+            file: formData.get("file"),
+        })
+
+        if (!validatedFormData.success) {
+            return NextResponse.json({
+                message: "Create Product failed",
+                data: {},
+                error: validatedFormData.error.flatten().fieldErrors
+            }, { status: 400 });
+        }
+
         const file = formData.get("file")
         if (!file) {
             return NextResponse.json({ error: "No files received." }, { status: 400 })
         }
 
-        const productName = formData.get("name").toString();
-        const isExists = await isExistsByName(productName);
-        if (isExists) {
-            return NextResponse.json(
-                {
-                    message: "Duplicate product name",
-                    data: {},
-                    error: {},
-                },
-                { status: 400 }
-            )
-        }
+        // const productName = formData.get("name").toString();
+        // const isExists = await isExistsByName(productName);
+        // if (isExists) {
+        //     return NextResponse.json(
+        //         {
+        //             message: "Duplicate games name",
+        //             data: {},
+        //             error: {},
+        //         },
+        //         { status: 400 }
+        //     )
+        // }
 
         const buffer = Buffer.from(await file.arrayBuffer())
         const fileName = "/uploads/" + Date.now() + file.name.replaceAll(" ", "_");
@@ -76,6 +93,6 @@ export async function POST(request: Request): Promise<NextResponse> {
         );
         return NextResponse.json({ message: "Success", data: {}, error: {} }, { status: 201 });
     } catch (error) {
-        return NextResponse.json({ message: "", data: {}, error: error, status: 500 })
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
     }
 }

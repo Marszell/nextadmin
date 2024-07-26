@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styles from '@/app/ui/login/login.module.css';
 import {useActionState} from "react";
 import axios from "axios";
-import {authenticate} from "@/app/lib/action";
+import {authenticate} from "@/app/lib/Actions";
 import {navigate} from "@/app/dashboard/games/add/action";
 import {useRouter} from "next/navigation";
 import {toast, Toaster} from "react-hot-toast";
