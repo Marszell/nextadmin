@@ -49,19 +49,19 @@ const TransactionsPage = () => {
                             <td>
                                 <div className={styles.product}>
                                 <Image 
-                                src={order.product.image_url}
+                                src={order.product_image_url}
                                 alt="gambar" 
                                 width={40} 
                                 height={40} 
                                 className={styles.productImage}
                                 />
-                                {order.product.name}
+                                {order.product_name}
                                 </div>
                             </td>
                             <td>{order.uid}</td>
                             <td><span className={`${styles.status} ${styles.done}`}>{order.status_order}</span></td>
                             <td>{date}</td>
-                            <td>{order.payment.name}</td>
+                            <td>{order.payment_name}</td>
                             <td>{order.price}</td>
                         </tr>
                         })}

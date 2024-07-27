@@ -13,9 +13,8 @@ export async function GET(request: Request): Promise<any> {
     try {
         const url = new URL(request.url);
         const searchParams = new URLSearchParams(url.searchParams);
-        const paymentOrProductName = searchParams.get("name");
-        const paymentId = searchParams.get("payment_id") !== null ? Number(BigInt(searchParams.get("payment_id"))) : null;
-        const orders = await fetchOrders(paymentOrProductName)
+        const productName = searchParams.get("name");
+        const orders = await fetchOrders(productName ?? "")
         return NextResponse.json({ message: "", data: orders, error: {} }, { status: 200 })
     } catch(error) {
         return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
