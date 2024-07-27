@@ -1,36 +1,36 @@
 "use client"
 import Image from "next/image"
-import Link from "next/link"
 import styles from "@/app/ui/dashboard/transactions/transaction.module.css"
 import Search from "@/app/ui/dashboard/search/search"
 import Pagination from "@/app/ui/dashboard/pagination/pagination"
-import { fetchOrders, fetchOrdersV2 } from "@/app/lib/OrderRepository"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import {toRupiah} from "@/app/lib/Utils";
 
 const TransactionsPage = () => {
-    // const [order] = await 
     const [orders,setOrders] = useState([])
 
     useEffect( () => {
         fetchOrders();
     },[])
 
-    // const fetchOrdersV2 = async () => {
-    //     const orderRes = await axios.get("/api/order")
-    //     setOrders(orderRes.data.data)
-    // } 
-
     const fetchOrders = async () => {
         const orderRes = await axios.get("/api/orders");
         setOrders(orderRes.data.data)
     } 
+    const onChange = async (event) => {
+        const filteredorders = await axios.get(`/api/orders`, {
+            params: {
+                name: event.target.value,
+            }
+        });
+        setOrders(filteredorders.data.data)
+    }
         
     return(
         <div className={styles.container}>
             <div className={styles.top}>
-                <Search placeholder="Search for a user..."/>
+                <Search placeholder="Search for a user..." onChange={onChange}/>
             </div>
             <table className={styles.table}>
                 <thead>

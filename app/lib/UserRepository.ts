@@ -75,14 +75,6 @@ export async function update(id: number, data: any) : Promise<any> {
 }
 
 export async function deleteUser(id: number) : Promise<any> {
-    // await prisma.user.update({
-    //     where: {
-    //         id: id
-    //     },
-    //     data: {
-    //         deleted_at: new Date()
-    //     }
-    // });
     await prisma.user.delete({
         where: {
             id: id

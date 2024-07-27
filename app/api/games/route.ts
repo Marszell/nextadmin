@@ -41,19 +41,6 @@ export async function POST(request: Request): Promise<NextResponse> {
             return NextResponse.json({ error: "No files received." }, { status: 400 })
         }
 
-        // const gameName = formData.get("name").toString();
-        // const isExists = await isExistsByName(gameName);
-        // if (isExists) {
-        //     return NextResponse.json(
-        //         {
-        //             message: "Duplicate game name",
-        //             data: {},
-        //             error: {},
-        //         },
-        //         { status: 400 }
-        //     )
-        // }
-
         const buffer = Buffer.from(await file.arrayBuffer())
         const fileName = "/uploads/" + Date.now() + file.name.replaceAll(" ", "_");
         // const filename = Date.now() + formData.get("name")

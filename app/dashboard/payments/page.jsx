@@ -60,18 +60,12 @@ const PaymentsPage = () => {
                                     alt=""
                                     width={40}
                                     height={40}
-                                    // className={styles.productImage}
                                 />
                             </div>
                         </td>
                         <td>{payment.name}</td>
                         <td>
                             <div className={styles.buttons}>
-                                {/* <Link href={`/dashboard/payments/${payment.id}`}>
-                                    <button className={`${styles.button} ${styles.view}`}>
-                                        View
-                                    </button>
-                                </Link> */}
                                 <button className={`${styles.button} ${styles.delete}`} onClick={() => onDelete(payment.id)}>
                                     Delete
                                 </button>

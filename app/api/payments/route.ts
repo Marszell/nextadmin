@@ -61,8 +61,6 @@ export async function POST(request: Request): Promise<NextResponse> {
 
         const buffer = Buffer.from(await file.arrayBuffer())
         const fileName = "/uploads/" + Date.now() + file.name.replaceAll(" ", "_");
-        // const filename = Date.now() + formData.get("name")
-        // const form = Object.fromEntries(formData.entries())
         const form = {}
         for (const pair of formData.entries()) {
             if(pair[0] == "file") continue

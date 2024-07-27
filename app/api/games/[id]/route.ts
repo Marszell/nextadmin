@@ -49,17 +49,6 @@ export async function PUT(req : Request, { params }) : Promise<NextResponse> {
         const id = parseInt(params.id)
         const file = formData.get("file")
         const gameById = await fetchGame(id);
-        // const gameName = formData.get("name").toString();
-        // const gameByName = await fetchGameByName(gameName);
-        // if (gameByName !== null && parseInt(gameByName.id) !== id) {
-        //     return NextResponse.json(
-        //         {
-        //             message: "Duplicate game name",
-        //             data: {},
-        //             error: {},
-        //         },
-        //         { status: 400 })
-        // }
         let fileName = gameById.image_url;
         if (file !== "undefined" && fileName !== null) {
             const buffer = Buffer.from(await file.arrayBuffer())

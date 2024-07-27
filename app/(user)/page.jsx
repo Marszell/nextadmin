@@ -17,21 +17,6 @@ export default function Dashboard(){
         const gameRes = await axios.get("/api/games")
         setGames(gameRes.data.data)
     }
-
-    // useEffect (() => {
-    //     const fetchGames = async () => {
-    //         try {
-    //             const response = await fetch("/api/games")
-    //             const result = await response.json();
-    //             setGames(result.data);
-    //         } catch (error) {
-    //             console.error('error fetching games:',error);
-    //         }
-    //     };
-
-    //     fetchGames();
-    // },[]);
-
     return(
         <div className={styles.wrapper}>
             <div className={styles.main}>

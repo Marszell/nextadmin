@@ -62,7 +62,6 @@ const UsersPage = () => {
                                         alt=""
                                         width={40}
                                         height={40}
-                                        // className={styles.productImage}
                                     /> : null
                                 }
                                 {user.name}

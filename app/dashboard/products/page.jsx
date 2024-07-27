@@ -7,6 +7,7 @@ import Search from "@/app/ui/dashboard/search/search"
 import Pagination from "@/app/ui/dashboard/pagination/pagination"
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {toRupiah} from "@/app/lib/Utils";
 
 const ProductsPage = () => {
     const [products, setProducts] = useState([])
@@ -70,7 +71,7 @@ const ProductsPage = () => {
                         <td>{product.name}</td>
                         <td>{product.game_name}</td>
                         <td>{product.description}</td>
-                        <td>{product.price}</td>
+                        <td>{toRupiah(product.price)}</td>
                         <td>{product.quantity}</td>
                         <td>
                             <div className={styles.buttons}>

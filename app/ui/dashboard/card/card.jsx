@@ -8,9 +8,6 @@ const Card = ({ label, quantity }) => {
             <div className={styles.texts}>
                 <span className={styles.title}>Total {label}</span>
                 <span className={styles.number}>{quantity}</span>
-                {/*<span className={styles.detail}>*/}
-                {/*    <span className={styles.positive}>12%</span> more than previous week*/}
-                {/*</span>*/}
             </div>
         </div>
     )

@@ -1,6 +1,4 @@
 "use client"
-
-// import styles from "@/app/ui/dashboard/payments/addPayment/addPayment.module.css";
 import styles from '@/app/ui/dashboard/payments/singlePayment/singlePayment.module.css'
 import Image from "next/image";
 import {useEffect, useState} from "react";
@@ -35,7 +33,6 @@ export default function AddOrUpdatePaymentPage({ isCreate, id }) {
             name: data.data.data.name,
             image_url: data.data.data.image_url,
         })
-        // const objectUrl = URL.createObjectURL(imageUrl)
         if (!selectedFile) {
             setPreview(data.data.data.image_url)
         }
@@ -68,7 +65,6 @@ export default function AddOrUpdatePaymentPage({ isCreate, id }) {
                 navigate("/dashboard/payments")
                 toast.success("Berhasil")
             } else {
-                // throw(new Error("duar"))
                 toast.error("Error")
             }
         } catch (error) {

@@ -6,8 +6,6 @@ import{
     MdSupervisedUserCircle,
     MdShoppingBag,
     MdAttachMoney,
-    MdOutlineSettings,
-    MdHelpCenter,
     MdLogout,
 } from "react-icons/md";
 import {auth, signOut} from "@/auth";
@@ -51,7 +49,6 @@ const menuItems =[
     },
 ];
 const Sidebar = async () => {
-    // TODO: James
     const session = await auth();
     const user = await fetchUserByEmail(session.user.email);
 

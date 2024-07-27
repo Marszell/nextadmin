@@ -14,7 +14,6 @@ export async function GET(request: Request): Promise<any> {
         const gameOrProductName = searchParams.get("name");
         const gameId = searchParams.get("game_id") !== null ? Number(BigInt(searchParams.get("game_id"))) : null;
         const products = await fetchProductsV2(gameOrProductName ?? "", gameId)
-        // TODO: James
         return NextResponse.json({ message: "", data: products, error: {} }, { status: 200 })
     } catch(error) {
         return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
@@ -47,42 +46,14 @@ export async function POST(request: Request): Promise<NextResponse> {
             return NextResponse.json({ error: "No files received." }, { status: 400 })
         }
 
-        // const productName = formData.get("name").toString();
-        // const isExists = await isExistsByName(productName);
-        // if (isExists) {
-        //     return NextResponse.json(
-        //         {
-        //             message: "Duplicate games name",
-        //             data: {},
-        //             error: {},
-        //         },
-        //         { status: 400 }
-        //     )
-        // }
-
         const buffer = Buffer.from(await file.arrayBuffer())
         const fileName = "/uploads/" + Date.now() + file.name.replaceAll(" ", "_");
-        // const filename = Date.now() + formData.get("name")
-        // const form = Object.fromEntries(formData.entries())
         const form = {}
         for (const pair of formData.entries()) {
             if(pair[0] == "file") continue
             if (pair[0] === "price" || pair[0] === "game_id" || pair[0] === "quantity")form[pair[0]] = parseInt(pair[1])
             else form[pair[0]] = pair[1]
         }
-
-        // const tezt = {
-        //     "name": "qwe",
-        //     "image_url": "test",
-        //     "description": "q",
-        //     "game_id": 23,
-        //     "price": 123,
-        //     "quantity": 123,
-        // }
-        // await create({
-        //     ...tezt
-        // })
-
         await create({
             ...form,
             image_url: fileName,
