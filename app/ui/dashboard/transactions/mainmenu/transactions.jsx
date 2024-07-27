@@ -26,13 +26,13 @@ const Transactions = ({ orders }) => {
                             <td>
                                 <div className={styles.user}>
                                 <Image 
-                                src={order.products.image_url}
+                                src={order.product.image_url}
                                 alt="" 
                                 width={40} 
                                 height={40} 
                                 className={styles.userImage}
                                 />
-                                {order.products.name}
+                                {order.product.name}
                                 </div>
                         </td>
                             <td><span className={`${styles.status} ${styles.done}`}>{order.status_order}</span></td>
