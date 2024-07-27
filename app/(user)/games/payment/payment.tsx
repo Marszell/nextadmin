@@ -1,5 +1,6 @@
 import styles from './payment.module.css'
 
+//this product is displaying payment method in game section
 export default function Payment({ label, imageUrl, isSelected,onClick}){
     return(
         <div className={`${styles.container} ${isSelected ? styles.selected : ''}`}

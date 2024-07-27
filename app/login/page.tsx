@@ -8,6 +8,7 @@ import {navigate} from "@/app/dashboard/games/add/action";
 import {useRouter} from "next/navigation";
 import {toast, Toaster} from "react-hot-toast";
 
+//this function is for display login page for admin only
 export default function LoginPage() {
   const router = useRouter()
 

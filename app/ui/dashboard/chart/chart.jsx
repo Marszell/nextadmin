@@ -3,6 +3,7 @@
 import styles from './chart.module.css'
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
+//this function is for displaying chart in dashboard admin page
 const data =[
     {
         name:"Sun",

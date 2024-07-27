@@ -1,5 +1,6 @@
 import styles from './sidebar.module.css'
 
+//thi product is for display the information game in game section.
 export default function Sidebar({ image_url, name, description }) {
     return (
         <div className={styles.wrapper}>

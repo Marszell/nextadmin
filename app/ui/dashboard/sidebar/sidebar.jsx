@@ -11,6 +11,7 @@ import{
 import {auth, signOut} from "@/auth";
 import {fetchUserByEmail} from "@/app/lib/UserRepository";
 
+//this function is for display menulink in leftside admin page
 const menuItems =[
     {
         title:"Pages",

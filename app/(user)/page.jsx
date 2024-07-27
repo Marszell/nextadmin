@@ -6,7 +6,7 @@ import styles from './dashboard.module.css'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-
+//this is a dashboard of user page
 export default function Dashboard(){
     const [games, setGames] = useState([])
 

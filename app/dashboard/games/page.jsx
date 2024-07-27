@@ -8,6 +8,8 @@ import Pagination from "@/app/ui/dashboard/pagination/pagination"
 import {useEffect, useState} from "react";
 import axios from "axios";
 
+
+//this function is for display games in admin page
 const GamesPage = () => {
     const [games, setGames] = useState([])
 

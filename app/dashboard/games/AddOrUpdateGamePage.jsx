@@ -9,6 +9,7 @@ import {LoaderIcon, toast} from 'react-hot-toast'
 import axios from "axios";
 import * as Yup from 'yup';
 
+//this function is for add or update game page
 export default function AddOrUpdateGamePage({ isCreate, id }) {
     const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState("/noavatar.png")

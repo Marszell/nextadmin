@@ -1,6 +1,7 @@
 "use client"
 import styles from './carousel.module.css'
 
+//this function is for display carousel in dashboard user
 export default function Carousel () {
   return <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
     <div className="carousel-indicators">

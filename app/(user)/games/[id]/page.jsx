@@ -12,6 +12,7 @@ import {navigate} from "@/app/dashboard/games/add/action";
 import {toast} from "react-hot-toast";
 import * as Yup from "yup";
 
+//this function is for show the product of game
 export default function GameDetail() {
     const params = useParams();
     const game_id = params.id;
