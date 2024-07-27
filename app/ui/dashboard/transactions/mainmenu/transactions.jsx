@@ -2,7 +2,7 @@ import Image from 'next/image'
 import styles from './transactions.module.css'
 import {toRupiah} from "@/app/lib/Utils";
 
-
+//this function is for display lastest transaction in dashboard admin page
 const Transactions = ({ orders }) => {
 
     return(

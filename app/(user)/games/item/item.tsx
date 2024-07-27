@@ -1,6 +1,7 @@
 import styles from './item.module.css';
 import {toRupiah} from "@/app/lib/Utils";
 
+//this product is for display item in game page
 export default function Item({ label, imageUrl, desc, price, isSelected, onClick, isDisabled }) {
     return (
         <div className={`${styles.container} ${isSelected ? styles.selected : ''} ${isDisabled ? styles.disabled : ''}`}

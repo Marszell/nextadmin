@@ -1,5 +1,6 @@
 import styles from './footer.module.css'
 
+//this function is for display footer in layout
 export default function Footer (){
     return (
         <div className={styles.container}>

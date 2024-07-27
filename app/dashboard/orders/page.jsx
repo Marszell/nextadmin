@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import {toRupiah} from "@/app/lib/Utils";
 
+//this function is for display the order page
 const TransactionsPage = () => {
     const [orders,setOrders] = useState([])
 

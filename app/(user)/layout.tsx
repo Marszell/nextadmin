@@ -3,6 +3,7 @@ import Navbar from './navbar/navbar'
 import styles from './dashboard.module.css'
 import {Toaster} from "react-hot-toast";
 
+//this is the layout of user page
 export default function Layout({children}){
     return(
         <div className={styles.container}>

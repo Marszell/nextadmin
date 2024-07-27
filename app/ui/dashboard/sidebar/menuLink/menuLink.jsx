@@ -4,6 +4,7 @@ import Link from 'next/link'
 import styles from './menuLink.module.css'
 import { usePathname } from 'next/navigation'
 
+//this function is for path of menulink in leftside
 const MenuLink = ({item}) => {
 
     const pathname = usePathname()

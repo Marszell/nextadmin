@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Image from "next/image";
 
+//this product is for display navbar in layout and for some games
 export default function Navbar () {
     const router = useRouter();
     const [selectGame, setSelectedGame] = useState(null);
