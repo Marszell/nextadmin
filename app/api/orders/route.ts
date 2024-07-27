@@ -64,7 +64,6 @@ export async function POST(request: Request): Promise<NextResponse> {
             }, { status: 400 });
         }
 
-        // TODO: James kurangin stok
         await create({
             ...formData,
             price: product.price,

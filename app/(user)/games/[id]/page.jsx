@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Sidebar from '../sidebarproduct/sidebarproduct';
 import styles from '../product.module.css';
 import Item from "../item/item";
@@ -16,11 +16,11 @@ export default function GameDetail() {
     const params = useParams();
     const game_id = params.id;
     const [game,setGame] = useState({})
+    const formRef = useRef();
     const [products,setProducts] = useState([])
     const [payments,setPayments] = useState([])
-    const [selectedProductIndex,setSelectedProductIndex] = useState()
-    const [selectedPaymentIndex,setSelectedPaymentIndex] = useState([])
-    // pake setfieldvalue
+    const [selectedProductIndex,setSelectedProductIndex] = useState(null)
+    const [selectedPaymentIndex,setSelectedPaymentIndex] = useState(null)
 
     useEffect (() => {
         fetchProductsById(game_id)
@@ -51,8 +51,10 @@ export default function GameDetail() {
         try {
             const response = await axios.post("/api/orders", values);
             if (response.status === 201) {
-                toast.success("Berhasil")
-
+                toast.success("Berhasil");
+                formRef.current?.resetForm();
+                setSelectedPaymentIndex(null);
+                setSelectedProductIndex(null);
             }
         } catch (error) {
             toast.error(error.response.data.message);
@@ -85,6 +87,7 @@ export default function GameDetail() {
                 <Formik
                     initialValues={initialValues}
                     enableReinitialize={true}
+                    innerRef={formRef}
                     onSubmit={onSubmit}
                     validationSchema={CreateTransactionSchema}
                 >

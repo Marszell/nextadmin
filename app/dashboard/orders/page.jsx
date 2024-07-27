@@ -49,13 +49,13 @@ const TransactionsPage = () => {
                             <td>
                                 <div className={styles.product}>
                                 <Image 
-                                src={orders.product.image_url} 
+                                src={order.product.image_url}
                                 alt="gambar" 
                                 width={40} 
                                 height={40} 
                                 className={styles.productImage}
                                 />
-                                {orders.product.name}
+                                {order.product.name}
                                 </div>
                             </td>
                             <td>{order.uid}</td>
