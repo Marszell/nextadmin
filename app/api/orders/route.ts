@@ -3,8 +3,38 @@ import {NextResponse} from "next/server";
 import {isNumber} from "@/app/lib/Utils";
 import {writeFile} from "fs/promises";
 import path from "path";
-import {create} from "@/app/lib/OrderRepository";
+import {create, fetchOrders, fetchOrdersV2} from "@/app/lib/OrderRepository";
 import {fetchProduct, fetchProductsById} from "@/app/lib/ProductRepository";
+import { NextApiRequest, NextApiResponse } from "next";
+
+BigInt.prototype.toJSON = function() { return this.toString() }
+
+export async function GET(request: Request): Promise<any> {
+    try {
+        const url = new URL(request.url);
+        const searchParams = new URLSearchParams(url.searchParams);
+        const paymentOrProductName = searchParams.get("name");
+        const paymentId = searchParams.get("payment_id") !== null ? Number(BigInt(searchParams.get("payment_id"))) : null;
+        const orders = await fetchOrders(paymentOrProductName)
+        return NextResponse.json({ message: "", data: orders, error: {} }, { status: 200 })
+    } catch(error) {
+        return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
+    }
+}
+
+// BigInt.prototype.toJSON = function() { return this.toString() }
+
+// export async function GET(request: Request): Promise<any> {
+//     try {
+//         const url = new URL(request.url);
+//         const searchParams = new URLSearchParams(url.searchParams);
+//         const orderParam = searchParams.get("name");
+//         const orders = await fetchOrdersV2(orderParam ?? "")
+//         return NextResponse.json({ message: "", data: orders, error: {} }, { status: 200 })
+//     } catch(error) {
+//         return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
+//     }
+// }
 
 const CreateTransaction = TransactionFormSchema.omit({id: true})
 export async function POST(request: Request): Promise<NextResponse> {

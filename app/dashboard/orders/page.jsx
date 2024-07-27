@@ -1,10 +1,31 @@
+"use client"
 import Image from "next/image"
 import Link from "next/link"
 import styles from "@/app/ui/dashboard/transactions/transaction.module.css"
 import Search from "@/app/ui/dashboard/search/search"
 import Pagination from "@/app/ui/dashboard/pagination/pagination"
+import { fetchOrders, fetchOrdersV2 } from "@/app/lib/OrderRepository"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 const TransactionsPage = () => {
+    // const [order] = await 
+    const [orders,setOrders] = useState([])
+
+    useEffect( () => {
+        fetchOrders();
+    },[])
+
+    // const fetchOrdersV2 = async () => {
+    //     const orderRes = await axios.get("/api/order")
+    //     setOrders(orderRes.data.data)
+    // } 
+
+    const fetchOrders = async () => {
+        const orderRes = await axios.get("/api/orders");
+        setOrders(orderRes.data.data)
+    } 
+        
     return(
         <div className={styles.container}>
             <div className={styles.top}>
@@ -13,7 +34,6 @@ const TransactionsPage = () => {
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <td>Name Game</td>
                         <td>Name Product</td>
                         <td>ID Game User</td>
                         <td>Status</td>
@@ -23,27 +43,28 @@ const TransactionsPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><div className={styles.product}>
-                            <Image 
-                                src="/noproduct.jpg" 
+                    {orders.map((order) =>{
+                        const date = new Date(order.created_at).toLocaleDateString('en-US', { timezone: 'Asia/Jakarta' });
+                        return <tr key={order.id}>
+                            <td>
+                                <div className={styles.product}>
+                                <Image 
+                                src={orders.product.image_url} 
                                 alt="gambar" 
                                 width={40} 
                                 height={40} 
                                 className={styles.productImage}
-                            />
-                            Genshin
-                        </div>
-                        </td>
-                        <td>Welkin</td>
-                        <td>800052546</td>
-                        <td>
-                        <span className={`${styles.status} ${styles.pending}`}>Pending</span>
-                        </td>
-                        <td>14.02.2024</td>
-                        <td>e-wallet</td>
-                        <td>Rp 50.000</td>
-                    </tr>
+                                />
+                                {orders.product.name}
+                                </div>
+                            </td>
+                            <td>{order.uid}</td>
+                            <td><span className={`${styles.status} ${styles.done}`}>{order.status_order}</span></td>
+                            <td>{date}</td>
+                            <td>{order.payment.name}</td>
+                            <td>{order.price}</td>
+                        </tr>
+                        })}
                 </tbody>
             </table>
             <Pagination/>
