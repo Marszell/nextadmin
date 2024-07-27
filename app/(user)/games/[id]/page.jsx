@@ -31,14 +31,6 @@ export default function GameDetail() {
     const fetchGame = async () => {
         const response = await axios.get(`/api/games/${game_id}`)
         setGame(response.data.data)
-        // const data = await axios.get("/api/games")
-        // const tempGames = data.data.data.map(game => {
-        //     return {
-        //         "id": game.id,
-        //         "name": game.name,
-        //     }
-        // })
-        // setGame(tempGames);
     }
 
     const fetchProductsById = async (id) => {

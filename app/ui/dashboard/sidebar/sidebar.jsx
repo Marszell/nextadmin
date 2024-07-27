@@ -43,24 +43,9 @@ const menuItems =[
                 icon:<MdAttachMoney />,
             },
             {
-                title:"Transactions",
+                title:"Orders",
                 path:"/dashboard/orders",
                 icon: <MdAttachMoney />,
-            },
-        ],
-    },
-    {
-        title:"Users",
-        list: [
-            {
-                title:"Settings",
-                path:"/dashboard/settings",
-                icon:<MdOutlineSettings />,
-            },
-            {
-                title:"Help",
-                path:"/dashboard/help",
-                icon:<MdHelpCenter />,
             },
         ],
     },
