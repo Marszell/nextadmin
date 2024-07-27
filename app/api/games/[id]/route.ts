@@ -27,15 +27,14 @@ export async function GET(request : Request, { params }) : Promise<NextResponse>
     }
 }
 
-const CreateGame = GameFormSchema.omit({file: true})
+const UpdateGame = GameFormSchema.omit({file: true})
 export async function PUT(req : Request, { params }) : Promise<NextResponse> {
     try {
         const formData = await req.formData()
 
-        const validatedFormData = GameFormSchema.safeParse({
+        const validatedFormData = UpdateGame.safeParse({
             id: parseInt(params['id']),
             name: formData.get("name"),
-            file: formData.get("file"),
         })
 
         if (!validatedFormData.success) {
