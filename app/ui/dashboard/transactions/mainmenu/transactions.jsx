@@ -2,6 +2,7 @@ import Image from 'next/image'
 import styles from './transactions.module.css'
 import { parseISO, format } from 'date-fns';
 import axios from 'axios';
+import {toRupiah} from "@/app/lib/Utils";
 
 
 const Transactions = ({ orders }) => {
@@ -38,7 +39,7 @@ const Transactions = ({ orders }) => {
                             <td><span className={`${styles.status} ${styles.done}`}>{order.status_order}</span></td>
                             {/* <td><time dateTime={orders.created_at}>{format(date , 'LLLL d, yyyy')}</time></td> */}
                             <td>{date}</td>
-                            <td>{order.price}</td>
+                            <td>{toRupiah(order.price)}</td>
                         </tr>
                     })}
                 </tbody>

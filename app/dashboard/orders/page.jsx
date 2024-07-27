@@ -7,6 +7,7 @@ import Pagination from "@/app/ui/dashboard/pagination/pagination"
 import { fetchOrders, fetchOrdersV2 } from "@/app/lib/OrderRepository"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import {toRupiah} from "@/app/lib/Utils";
 
 const TransactionsPage = () => {
     // const [order] = await 
@@ -62,7 +63,7 @@ const TransactionsPage = () => {
                             <td><span className={`${styles.status} ${styles.done}`}>{order.status_order}</span></td>
                             <td>{date}</td>
                             <td>{order.payment_name}</td>
-                            <td>{order.price}</td>
+                            <td>{toRupiah(order.price)}</td>
                         </tr>
                         })}
                 </tbody>

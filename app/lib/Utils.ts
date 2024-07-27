@@ -3,3 +3,10 @@ export function isNumber(value?: any): boolean {
         (value !== '') &&
         !isNaN(Number(value.toString())));
 }
+
+export function toRupiah(number: number): string {
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR"
+    }).format(number);
+}
