@@ -12,11 +12,6 @@ export default function Payment({ label, imageUrl, isSelected,onClick}){
                     <span>{label}</span>
                 </div>
             </div>
-            {/* <div className={styles.rightside}>
-                <div className={styles.price}>
-                    <span>Rp 1.460.000</span>
-                </div> */}
-            {/* </div> */}
         </div>
     )
 }

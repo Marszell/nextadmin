@@ -23,7 +23,6 @@
 .main{
     flex: 3;
     display: block;
-    /* flex-direction: column; */
     gap: 40px;
 }
 

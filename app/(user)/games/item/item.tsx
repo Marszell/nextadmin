@@ -1,4 +1,5 @@
 import styles from './item.module.css';
+import {toRupiah} from "@/app/lib/Utils";
 
 export default function Item({ label, imageUrl, desc, price, isSelected, onClick, isDisabled }) {
     return (
@@ -14,7 +15,7 @@ export default function Item({ label, imageUrl, desc, price, isSelected, onClick
                 </div>
             </div>
             <div className={styles.lower}>
-                <span>{price}</span>
+                <span>{toRupiah(price)}</span>
             </div>
         </div>
     );

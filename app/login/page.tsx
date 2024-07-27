@@ -9,11 +9,6 @@ import {useRouter} from "next/navigation";
 import {toast, Toaster} from "react-hot-toast";
 
 export default function LoginPage() {
-  // const [errorMessage, formAction, isPending] = useActionState(
-  //     authenticate,
-  //     // searchParams.get("callbackUrl")
-  //     undefined,
-  // );
   const router = useRouter()
 
   const login =  async (values) => {

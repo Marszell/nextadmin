@@ -21,20 +21,6 @@ export async function GET(request: Request): Promise<any> {
     }
 }
 
-// BigInt.prototype.toJSON = function() { return this.toString() }
-
-// export async function GET(request: Request): Promise<any> {
-//     try {
-//         const url = new URL(request.url);
-//         const searchParams = new URLSearchParams(url.searchParams);
-//         const orderParam = searchParams.get("name");
-//         const orders = await fetchOrdersV2(orderParam ?? "")
-//         return NextResponse.json({ message: "", data: orders, error: {} }, { status: 200 })
-//     } catch(error) {
-//         return NextResponse.json({ message: error.message, data: {}, error: error }, { status: 500 })
-//     }
-// }
-
 const CreateTransaction = TransactionFormSchema.omit({id: true})
 export async function POST(request: Request): Promise<NextResponse> {
     try {

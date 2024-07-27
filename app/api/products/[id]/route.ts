@@ -55,17 +55,6 @@ export async function PUT(req : Request, { params }) : Promise<NextResponse> {
         const file = formData.get("file")
 
         const productById = await fetchProduct(id);
-        // const productName = formData.get("name").toString();
-        // const productByName = await fetchProductByName(productName);
-        // if (productByName !== null && parseInt(productByName.id) !== id ) {
-        //     return NextResponse.json(
-        //         {
-        //             message: "Duplicate Product Name",
-        //             data: {},
-        //             error: {},
-        //         },
-        //         {status: 400})
-        // }
         let fileName = productById.image_url;
         if (file !== "undefined" && fileName !== null) {
             const buffer = Buffer.from(await file.arrayBuffer())

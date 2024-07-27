@@ -25,10 +25,6 @@ export async function fetchGameByName(name: string) : Promise<any> {
     });
 }
 
-// export async function fetchGameByNameV2(name: string) : Promise<any> {
-//     return prisma.$queryRaw`SELECT * FROM game WHERE name LIKE "%${name}%"`;
-// }
-
 export async function fetchGamesV2(name: string) : Promise<any[]> {
     return prisma.game.findMany({
         where: {
@@ -83,20 +79,6 @@ export async function deleteGameAndProduct(id: number) : Promise<any> {
             }
         })
     ]);
-
-    // await prisma.game.update({
-    //     where: {
-    //         id: id
-    //     },
-    //     data: {
-    //         deleted_at: new Date()
-    //     }
-    // });
-//     await prisma.game.delete({
-//         where: {
-//             id: id
-//         }
-//     })
 }
 
 export async function countGames() : Promise<number> {

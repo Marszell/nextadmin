@@ -1,6 +1,5 @@
 import { Component } from "react";
 
-// TODO: delete
 class ErrorBoundary extends Component {
     constructor(props) {
         super(props)

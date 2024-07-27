@@ -1,9 +1,6 @@
 import prisma from "@/app/lib/prisma";
 
 export async function create(data: any) : Promise<any> {
-    // await prisma.order.create({
-    //     data: data
-    // });
     await prisma.$transaction([
         prisma.order.create({
             data: data
@@ -30,12 +27,6 @@ export async function countOrders() : Promise<number> {
 }
 
 export async function fetchOrders(name:string) : Promise<any> {
-    // return prisma.order.findMany({
-    //     include: {
-    //         product: true,
-    //         payment: true
-    //     }
-    // })
     return prisma.$queryRawUnsafe(`
         SELECT o.*, pa.name as payment_name, pr.name as product_name, pr.image_url as product_image_url
         FROM orders o
@@ -54,15 +45,5 @@ export async function fetchOrdersV2() : Promise<any> {
             product: true,
             payment: true
         }
-        // select:{
-        //     id: true,
-        //     product_id: true,
-        //     products: true,
-        //     price: true,
-        //     status_order: true,
-        //     payment_id: true,
-        //     payments: true,
-        //     created_at:true,
-        // }
     })
 }

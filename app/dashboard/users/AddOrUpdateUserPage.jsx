@@ -1,6 +1,5 @@
 "use client"
 
-// import styles from "@/app/ui/dashboard/users/addUser/addUser.module.css";
 import styles from '@/app/ui/dashboard/users/singleUser/singleUser.module.css'
 import Image from "next/image";
 import {useEffect, useState} from "react";
@@ -34,10 +33,8 @@ export default function AddOrUpdateUserPage({ isCreate, id }) {
         setFormData({
             name: data.data.data.name,
             email: data.data.data.email,
-            // created_at: data.data.data.created_at,
             image_url: data.data.data.image_url,
         })
-        // const objectUrl = URL.createObjectURL(imageUrl)
         if (!selectedFile) {
             setPreview(data.data.data.image_url)
         }
@@ -70,7 +67,6 @@ export default function AddOrUpdateUserPage({ isCreate, id }) {
                 navigate("/dashboard/users")
                 toast.success("Berhasil")
             } else {
-                // throw(new Error("duar"))
                 toast.error("Error")
             }
         } catch (error) {

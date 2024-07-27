@@ -81,8 +81,6 @@ export default function Navbar () {
             </div>
             <div className={styles.right}>
                 <div className={styles.icons}>
-                    {/*<MdOutlineChat size={20} />*/}
-                    {/*<MdNotifications size={20} />*/}
                 </div>
             </div>
         </div>

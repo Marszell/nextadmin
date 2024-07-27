@@ -35,7 +35,6 @@ export default function AddOrUpdateGamePage({ isCreate, id }) {
             description: data.data.data.description,
             image_url: data.data.data.image_url,
         })
-        // const objectUrl = URL.createObjectURL(imageUrl)
         if (!selectedFile) {
             setPreview(data.data.data.image_url)
         }
@@ -68,7 +67,6 @@ export default function AddOrUpdateGamePage({ isCreate, id }) {
                 navigate("/dashboard/games")
                 toast.success("Berhasil")
             } else {
-                // throw(new Error("duar"))
                 toast.error("Error")
             }
         } catch (error) {

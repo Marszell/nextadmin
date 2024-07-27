@@ -1,6 +1,5 @@
 "use client"
 
-// import styles from "@/app/ui/dashboard/products/addProduct/addProduct.module.css";
 import styles from '@/app/ui/dashboard/products/singleProduct/singleProduct.module.css'
 import Image from "next/image";
 import {useEffect, useState} from "react";
@@ -52,7 +51,6 @@ export default function AddOrUpdateProductPage({ isCreate, id }) {
             quantity: data.data.data.quantity,
             game_id: data.data.data.game_id,
         })
-        // const objectUrl = URL.createObjectURL(imageUrl)
         if (!selectedFile) {
             setPreview(data.data.data.image_url)
         }
@@ -84,7 +82,6 @@ export default function AddOrUpdateProductPage({ isCreate, id }) {
                 navigate("/dashboard/products")
                 toast.success("Berhasil")
             } else {
-                // throw(new Error("duar"))
                 toast.error("Error")
             }
         } catch (error) {
