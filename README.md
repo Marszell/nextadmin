@@ -14,6 +14,10 @@ pnpm dev
 # or
 bun dev
 ```
+## File
+`app -> (user)` adalah dashboard user page
+`app -> dashboard` adalah tampilan code dashboard admin
+`app -> ui` adalah tampilan pembantu untuk dashboard admin
 
 step:
 - run migration db/migrations/migration.sql
