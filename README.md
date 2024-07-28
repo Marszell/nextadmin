@@ -16,8 +16,11 @@ bun dev
 ```
 ## File
 `app -> (user)` adalah dashboard user page
+<br>
 `app -> dashboard` adalah tampilan code dashboard admin
+<br>
 `app -> ui` adalah tampilan pembantu untuk dashboard admin
+<br>
 
 step:
 - run migration db/migrations/migration.sql
