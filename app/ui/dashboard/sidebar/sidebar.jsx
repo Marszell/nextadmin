@@ -64,7 +64,7 @@ const Sidebar = async () => {
             </div>
             <ul className={styles.list}>
                 {menuItems.map((cat) => (
-                    <li key={cat.title}> 
+                    <li key={cat.title}>
                         <span className={styles.cat}>{cat.title}</span>
                         {cat.list.map((item) => (
                             <MenuLink item={item} key={item.title} />

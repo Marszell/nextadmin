@@ -26,14 +26,20 @@ export async function fetchGameByName(name: string) : Promise<any> {
 }
 
 export async function fetchGamesV2(name: string) : Promise<any[]> {
-    return prisma.game.findMany({
-        where: {
-            deleted_at: null,
-            name: {
-                contains: name
-            }
-        }
-    });
+    return prisma.$queryRawUnsafe(`
+        SELECT g.*
+        FROM games g
+        WHERE g.name ILIKE $1
+        AND g.deleted_at is null
+        `, `%${name}%`)
+    // return prisma.game.findMany({
+    //     where: {
+    //         deleted_at: null,
+    //         name: {
+    //             contains: name
+    //         }
+    //     }
+    // });
 }
 
 export async function isExistsByName(name: string) : Promise<boolean> {

@@ -1,3 +1,4 @@
+/*!* dashboard.module.css *!*/
 .content{
     display: flex;
     flex-direction: column;
@@ -23,6 +24,7 @@
 .main{
     flex: 3;
     display: block;
+    /* flex-direction: column; */
     gap: 40px;
 }
 

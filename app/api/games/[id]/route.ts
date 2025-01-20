@@ -57,7 +57,7 @@ export async function PUT(req : Request, { params }) : Promise<NextResponse> {
                 path.join(process.cwd(), "./public/" + fileName),
                 buffer
             );
-
+    
             await fs.unlink(path.join(process.cwd(), "./public/" + gameById.image_url), function(error) {});
         }
         const form = {}

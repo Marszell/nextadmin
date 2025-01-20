@@ -9,7 +9,7 @@ import {LoaderIcon, toast} from 'react-hot-toast'
 import axios from "axios";
 import * as Yup from 'yup';
 
-//this function is for add or update game page
+//this function is for add or i page
 export default function AddOrUpdateGamePage({ isCreate, id }) {
     const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState("/noavatar.png")
@@ -46,7 +46,6 @@ export default function AddOrUpdateGamePage({ isCreate, id }) {
             setSelectedFile(undefined)
             return
         }
-
         setSelectedFile(e.target.files[0])
     }
 
